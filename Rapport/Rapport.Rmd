@@ -1,0 +1,44 @@
+---
+title: |
+    |  ![](img/LOGO-ENSAE.png){height=2.5cm} 
+    |  \textsc{Applied macroeconometrics}
+    |  Les effets d’une hausse de l’Euribor 3-mois
+author: |
+    | Valentin Giust, Gautier Lenfant et Alain Quartier-la-Tente
+automaticcontents: true
+output:
+  bookdown::pdf_document2:
+        toc: true
+        number_sections: true
+        fig_width: 7
+        fig_height: 6
+        fig_caption: true
+        highlight: default
+        keep_tex: yes
+        includes:
+          in_header: preamble.tex
+        logo: ""
+themeoptions: "coding=utf8,language=french"
+classoption: ['french', 'a4paper']
+fontsize: 10pt
+geometry: margin=0.80in
+lang: "french"
+documentclass: "article"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                        fig.path = "img/markdown-",
+                      cache = FALSE)
+options(enable_print_style = FALSE)
+```
+
+\vfill
+
+L'ensemble du projet est disponible à l'adresse https://github.com/AQLT/AppliedMacroEuribor.
+
+\newpage
+
+# Introduction {-}
+
+
