@@ -1,0 +1,72 @@
+---
+title: |
+    |  ![](img/LOGO-ENSAE.png){height=2.5cm} 
+    |  \textsc{Applied macroeconometrics}
+    |  Les effets d’une hausse de l’Euribor 3-mois
+author: |
+    | Valentin Giust, Gautier Lenfant et Alain Quartier-la-Tente
+automaticcontents: true
+output:
+  bookdown::pdf_document2:
+        toc: true
+        number_sections: true
+        fig_width: 7
+        fig_height: 6
+        fig_caption: true
+        highlight: default
+        keep_tex: yes
+        includes:
+          in_header: preamble.tex
+        logo: ""
+themeoptions: "coding=utf8,language=french"
+classoption: ['french', 'a4paper']
+fontsize: 10pt
+geometry: margin=0.80in
+lang: "french"
+documentclass: "article"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                        fig.path = "img/markdown-",
+                      cache = FALSE)
+library(vars)
+```
+
+\vfill
+
+L'ensemble du projet est disponible à l'adresse https://github.com/AQLT/AppliedMacroEuribor (à eventuellement modifier).
+
+\newpage
+
+# Introduction {-}
+
+```{r,echo = TRUE}
+matrix <- readRDS("../data/data.RDS")
+matrix <- na.omit(matrix)
+
+#Select AIC-suggested lag#
+
+lagselect <-VARselect(matrix,lag.max=12,type="both")
+lagselect$selection
+p_retenu = 2
+model<-VAR(matrix, p=p_retenu,type = "const")
+
+###Forecast Error Impulse Response###
+
+#response of Unemployment to EURIBOR#
+forimp <- irf(model, impulse = "EURIBOR_3M",
+           response = c("unemployment","dlGDP","inflation","underinf"),
+           n.ahead = 8, ortho = FALSE, runs = 1000)
+plot(forimp,plot.type="multiple",
+     mar.multi = c(.5, 4, .5, 4))
+
+###Orthogonal Impulse Response###
+oir <- irf(model, impulse = "EURIBOR_3M",
+           response = c("unemployment","dlGDP","inflation","underinf"),
+           n.ahead = 8, ortho = TRUE, runs = 1000)
+plot(oir,plot.type="multiple",
+     mar.multi = c(.5, 4, .5, 4))
+```
+
+
