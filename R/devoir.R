@@ -1,9 +1,11 @@
+############################### PACKAGE DOWNLOADING & LOADING ############################### 
+
 #download packages
 
 clean_eurostat_cache()
-
 install.packages("package:ggplot2")
 install.packages("ecb")
+install.packages("eurostat")
 install.packages("mFilter")
 install.packages("tseries")
 install.packages("forecast")
@@ -24,107 +26,124 @@ library(TSstudio)
 library(forecast)
 library(tidyverse)
 
-#grab the data
+############################### DATA GATHERING & CLEANING ###############################  
 
-##EURIBOR_3M
+#EURIBOR_3M#
 
 euri<-get_eurostat(
   "irt_st_q",
   time_format="date",
-  filters=list(geo="EA",int_rt="IRT_M3",sinceTimePeriod="1997Q1")
+  filters=list(geo="EA",int_rt="IRT_M3",sinceTimePeriod="2002Q1")
 )
-euribor <- ts(euri$values,start=c(str_sub(euri$time[1],1,4),1,1), freq=4)
+euribor <- ts(euri$values[1:24],start=c(str_sub(euri$time[1],1,4),1,1), freq=4)
 
-##GDP
+#GDP#
 
 gdp<-get_eurostat(
   "namq_10_gdp",
   time_format="date",
-  filters=list(geo="EA", s_adj="NSA", na_item="B1GQ", unit="CLV10_MEUR",sinceTimePeriod = "1997Q1")
+  filters=list(geo="EA", s_adj="NSA", na_item="B1GQ", unit="CLV10_MEUR",sinceTimePeriod = "2002Q1")
 )
-lgdp<-log(ts(gdp$values,start=c(str_sub(gdp$time[1],1,4),1,1), freq=4))
+lgdp<-log(ts(gdp$values[1:24],start=c(str_sub(gdp$time[1],1,4),1,1), freq=4))
 
-##unemployment
+#Unemployment#
 
 unem<-get_eurostat(
   "une_rt_q",
   time_format="date",
-  filters=list(age = "Y15-74", geo="EA19",sex="T",s_adj = "NSA", unit="PC_ACT",sinceTimePeriod = "1997Q1")
+  filters=list(age = "Y15-74", geo="EA19",sex="T",s_adj = "NSA", unit="PC_ACT",sinceTimePeriod = "2002Q1")
 )
-unemp<-ts(unem$values,start=c(str_sub(unem$time[1],1,4),1,1), freq=4)
+unemp<-ts(unem$values[1:24],start=c(str_sub(unem$time[1],1,4),1,1), freq=4)
 
-##inflation and underlying inflation (From ECB database)
+#inflation and underlying inflation (From ECB database)#
 
 hicp <-get_data("ICP.M.U2.N.000000.4.ANR",
-                filter = list(startPeriod ="1997-01",endPeriod="2020-12")
+                filter = list(startPeriod ="2002-01",endPeriod="2007-12")
 )
 
 infex <-get_data("ICP.M.U2.N.XEF000.4.ANR",
-                filter = list(startPeriod ="1997-01",endPeriod="2020-12")
+                 filter = list(startPeriod ="2002-01",endPeriod="2007-12")
 )
 long<-nrow(infex)/3
 
-###conversion of monthly inflation rates into quarterly inflation rates
-
-hicpq<-matrix(0,long,1)
-for (v in (1:long)){
- hicpq[v] = mean(hicp$obsvalue[3*v],hicp$obsvalue[3*v-1],hicp$obsvalue[3*v-2])
+#Function: Month to Quarter converter for ECB data#
+monthly_to_quarterly <- function(month) {
+  quarter<-matrix(0,long,1)
+  for (v in (1:long)){
+    quarter[v] = mean(month$obsvalue[3*v],month$obsvalue[3*v-1],month$obsvalue[3*v-2])
+  }
+  quarter<-ts(quarter,start=c(str_sub(hicp$obstime[1],1,4),1,1), freq=4)
+  return(quarter)
 }
-hicpq<-hicpq[-long,]
-hicpq<-ts(hicpq,start=c(str_sub(hicp$obstime[1],1,4),1,1), freq=4)
 
-infexq<-matrix(0,long,1)
-for (v in (1:long)){
-  infexq[v] = mean(infex$obsvalue[3*v],infex$obsvalue[3*v-1],infex$obsvalue[3*v-2])
-}
-infexq<-infexq[-long,]
-infexq<-ts(infexq,start=c(str_sub(infex$obstime[1],1,4),1,1), freq=4)
+hicpq<-monthly_to_quarterly(hicp)
+infexq<-monthly_to_quarterly(infex)
 
-#Put the variables together
+############################### MODEL ###############################  
+
+#Bunch the variables together#
 
 matrix<-cbind(euribor,lgdp,unemp,hicpq,infexq)
-matrix<-matrix[-long,]
-colnames(matrix)<-cbind("GDP","EURIBOR_3M","unemployment","inflation","underinf")
+colnames(matrix)<-cbind("EURIBOR_3M","GDP","unemployment","inflation","underinf")
 
-#Lag selection
+#Select AIC-suggested lag#
 
-lagselect <-VARselect(matrix,lag.max=12,type="both")
-lag<-min(lagselect$selection)
+lagselect <-VARselect(matrix,lag.max=17,type="both")
+model<-VAR(matrix, p=lagselect$selection[1],type = "const")
 
-#Model
+###Forecast Error Impulse Response###
 
-model<-VAR(matrix, p = lag, type = "both")
-a.mat <- diag(5)
-for (i in (1:5)){
-for (v in (1:i)){
-  a.mat[i,v]<-NA
-}
-}
-SVARmodel <- SVAR(model,Amat=a.mat, estmethod = c("scoring","direct"))
+#response of Unemployment to EURIBOR#
 
-#Impulse response
+forimp1 <- irf(model, impulse = "EURIBOR_3M", response = "unemployment",n.ahead = 8, ortho = FALSE, runs = 1000)
 
-##response of Unemployment to EURIBOR
+#response of GDP to EURIBOR#
 
-SVARimp1 <- irf(SVARmodel,impulse="EURIBOR_3M",response="GDP")
+forimp2 <- irf(model, impulse = "EURIBOR_3M", response = "GDP",n.ahead = 8, ortho = FALSE, runs = 1000)
 
-##response of GDP to EURIBOR
+#response of inflation to EURIBOR#
 
-SVARimp2 <- irf(SVARmodel,impulse="EURIBOR_3M",response="unemployment")
+forimp3 <- irf(model, impulse = "EURIBOR_3M", response = "inflation",n.ahead = 8, ortho = FALSE, runs = 1000)
 
-##response of unemployment to EURIBOR
+#response of underlying inflation to EURIBOR#
 
-SVARimp3 <- irf(SVARmodel,impulse="EURIBOR_3M",response="inflation")
-
-##response of inflation to EURIBOR
-
-SVARimp4 <- irf(SVARmodel,impulse="EURIBOR_3M",response="underinf")
+forimp4 <- irf(model, impulse = "EURIBOR_3M", response = "underinf",n.ahead = 8, ortho = FALSE, runs = 1000)
 
 #draw plots
 
 par(mfrow=c(2,2))
-plot(SVARimp1)
-plot(SVARimp2)
-plot(SVARimp3)
-plot(SVARimp4)
+plot(forimp1)
+plot(forimp2)
+plot(forimp3)
+plot(forimp4)
+
+###Orthogonal Impulse Response###
+
+#response of Unemployment to EURIBOR#
+
+oir1 <- irf(model, impulse = "EURIBOR_3M", response = "unemployment",n.ahead = 8, ortho = TRUE, runs = 1000)
+
+#response of GDP to EURIBOR#
+
+oir2 <- irf(model, impulse = "EURIBOR_3M", response = "GDP",n.ahead = 8, ortho = TRUE, runs = 1000)
+
+#response of inflation to EURIBOR#
+
+oir3 <- irf(model, impulse = "EURIBOR_3M", response = "inflation",n.ahead = 8, ortho = TRUE, runs = 1000)
+
+#response of underlying inflation to EURIBOR#
+
+oir4 <- irf(model, impulse = "EURIBOR_3M", response = "underinf",n.ahead = 8, ortho = TRUE, runs = 1000)
+
+#draw plots
+
+par(mfrow=c(2,2))
+plot(oir1)
+plot(oir2)
+plot(oir3)
+plot(oir4)
+
+
+
+
 
