@@ -23,9 +23,8 @@ gdp<-get_eurostat(
     time_format="date",
     filters=list(geo="EA", s_adj="SCA", na_item="B1GQ", unit="CLV10_MEUR")
 )  # La série désaisonnalisée n'est pas disponible au niveau agrégé
-gdp <- ts(gdp$values,start=c(substr(gdp$time[1],1,4),1), freq=4)
-PP.test(matrix[,1])
-dlgdp <- diff(log(gdp))
+gdp <- log(ts(gdp$values,start=c(substr(gdp$time[1],1,4),1), freq=4))
+dlgdp <- diff(gdp)
 
 # FBCF
 fbcf<-get_eurostat(
@@ -33,8 +32,8 @@ fbcf<-get_eurostat(
     time_format="date",
     filters=list(geo="EA", s_adj="SCA", na_item="P51G", unit="CLV10_MEUR")
 ) 
-fbcf <- ts(fbcf$values,start=c(substr(fbcf$time[1],1,4),1), freq=4)
-dfbcf <- diff(log(fbcf))
+fbcf <- log(ts(fbcf$values,start=c(substr(fbcf$time[1],1,4),1), freq=4))
+dfbcf <- diff(fbcf)
 
 ##unemployment
 # Extraction du taux de chômage harmonisé pour les personnes de 15 à 74 ans,
@@ -63,8 +62,9 @@ infexq <- aggregate(as.zoo(infex), yearqtr, mean)
 infexq <- as.ts(infexq)
 
 
-data <- ts.union(euribor, dlgdp,dfbcf, unemp, hicpq, infexq)
-colnames(data)<-cbind("EURIBOR_3M", "dlGDP","dfbcf","unemployment","inflation","underinf")
+data <- ts.union(euribor, dlgdp,gdp,dfbcf,fbcf, unemp, hicpq, infexq)
+colnames(data)<-cbind("EURIBOR_3M", "dlGDP","lGDP",
+                      "dlfbcf", "lfbcf","unemployment","inflation","underinf")
 saveRDS(data, file="data/data_UE.RDS")
 
 ##################################
@@ -142,7 +142,7 @@ infexq <- aggregate(as.zoo(infex), yearqtr, mean)
 infexq <- as.ts(infexq)
 # Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - Série CVS-CJO aux prix de l'année précédente chaînés - Série CVS-CJO
 pib <- lectureBDM("010565708")
-dlpib <- (log(pib))
+dlpib <- diff(log(pib))
 
 # Pour avoir la doc associée : https://www.insee.fr/fr/statistiques/serie/010565708
 # (changer le numéro de la fin pour changer de série)
