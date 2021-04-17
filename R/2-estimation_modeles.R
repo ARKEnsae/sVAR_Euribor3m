@@ -14,7 +14,7 @@
 
 # library(ecb)
 # library(eurostat)
-# library(urca)
+library(urca)
 library(vars)
 # library(mFilter)
 # library(tseries)
@@ -22,20 +22,24 @@ library(vars)
 # library(forecast)
 # library(tidyverse)
 
-matrix <- readRDS("data/data.RDS")
-matrix <- na.omit(matrix)
-
+matrix <- readRDS("data/data_UE.RDS")
+matrix <- na.omit(matrix[,c("EURIBOR_3M", "lGDP", #"lfbcf", 
+                            "unemployment", "inflation", "underinf")])
+matrix <- window(matrix, end = c(2018,4))
 #Select AIC-suggested lag#
 
 lagselect <-VARselect(matrix,lag.max=12,type="both")
-lagselect$selection
-p_retenu = 2
-model<-VAR(matrix, p=p_retenu,type = "const")
 
+lagselect$selection
+p_retenu = 1
+model<-VAR(matrix, p=p_retenu,type = "both")
+# arch.test(model)
+# summary(model)
+plot(stability(model), nc = 4)
 ###Forecast Error Impulse Response###
 
 forimp <- irf(model, impulse = "EURIBOR_3M",
-           response = c("unemployment","dlGDP","inflation","underinf"),
+           response = c("unemployment","inflation","underinf"),
            n.ahead = 8, ortho = FALSE, runs = 1000)
 plot(forimp,plot.type="multiple",
      mar.multi = c(.5, 4, .5, 4))
@@ -43,22 +47,23 @@ plot(forimp,plot.type="multiple",
 #response of Unemployment to EURIBOR#
 
 forimp1 <- irf(model, impulse = "EURIBOR_3M", response = "unemployment",
-               n.ahead = 8, ortho = FALSE, runs = 1000)
+               n.ahead = 32, ortho = FALSE, runs = 1000)
+plot(forimp1)
 
 #response of dlGDP to EURIBOR#
 
-forimp2 <- irf(model, impulse = "EURIBOR_3M", response = "dlGDP",
-               n.ahead = 8, ortho = FALSE, runs = 1000)
-
+forimp2 <- irf(model, impulse = "EURIBOR_3M", response = "lGDP",
+               n.ahead = 32, ortho = FALSE, runs = 1000)
+plot(forimp2)
 #response of inflation to EURIBOR#
 
 forimp3 <- irf(model, impulse = "EURIBOR_3M", response = "inflation",
-               n.ahead = 8, ortho = FALSE, runs = 1000)
-
+               n.ahead = 32, ortho = FALSE, runs = 1000)
+plot(forimp3)
 #response of underlying inflation to EURIBOR#
 
 forimp4 <- irf(model, impulse = "EURIBOR_3M", response = "underinf",
-               n.ahead = 8, ortho = FALSE, runs = 1000)
+               n.ahead = 32, ortho = FALSE, runs = 1000)
 
 #draw plots
 
