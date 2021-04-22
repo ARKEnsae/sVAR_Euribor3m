@@ -18,12 +18,8 @@ output:
         includes:
           in_header: preamble.tex
         logo: ""
-themeoptions: "coding=utf8,language=french"
-classoption: ['french', 'a4paper']
 fontsize: 10pt
 geometry: margin=0.80in
-lang: "french"
-documentclass: "article"
 ---
 
 ```{r setup, include=FALSE}
@@ -41,4 +37,31 @@ L'ensemble du projet est disponible à l'adresse https://github.com/AQLT/Applied
 
 # Introduction {-}
 
+In this essay, we build upon a VAR model to quantify the effects of changes in the EURIBOR-3M rate (a benchmark short term rate in the EA) on a series of key macroeconomic variables (GDP, inflation, unemployment, investment) both at the EA level, and in the particular case of France alike. We map out different scenarios of rise and falls in the EURIBOR-3M to assess the response of the economy to monetary shocks of different natures and amplitudes. Our model predicts that a one standard-deviation rise in the EURIBOR-3M rate is associated with a significant and lingering drift of the EA GDP down its no-shock trend. Further, a rise in the short term monetary rate brings conventional inflation down its no-shock trend. We also find suggestive evidence that rising EURIBOR-3M rate has a detrimental effect on the EA and French labor markets. When it comes to the relationship between the short-term rate and the main macroeconomic variables, our VAR-based findings are consistent with the theoretical predictions of the Neokeynesian framework. 
+
+In the first part, we present our data set and provide the origin of our empirical resources. We then present our empirical strategy and the features of our specification in the second part. Finally, the last part exhibits the results of our estimations. 
+
+# Data setting {-}
+
+## Data origin {-}
+
+## A few stylized facts {-}
+
+# Empirical strategy {-}
+
+## Presentation of the VAR model {-}
+
+## Fine tuning of the model {-}
+
+# Estimations & results {-}
+
+## Empirical takeways in the case of the EA {-}
+
+### Scenario n°1 {-}
+### Scenario n°2 {-}
+
+## Empirical takeways in the case of France {-}
+
+### Scenario n°1 {-}
+### Scenario n°2 {-}
 
