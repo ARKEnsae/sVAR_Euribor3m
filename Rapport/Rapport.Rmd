@@ -37,28 +37,60 @@ L'ensemble du projet est disponible à l'adresse https://github.com/AQLT/Applied
 
 # Introduction {-}
 
-In this essay, we build upon a VAR model to quantify the effects of changes in the EURIBOR-3M rate (a benchmark short term rate in the EA) on a series of key macroeconomic variables (GDP, inflation, unemployment, investment) both at the EA level, and in the particular case of France alike. We map out different scenarios of rise and falls in the EURIBOR-3M to assess the response of the economy to monetary shocks of different natures and amplitudes. Our model predicts that a one standard-deviation rise in the EURIBOR-3M rate is associated with a significant and lingering drift of the EA GDP down its no-shock trend. Further, a rise in the short term monetary rate brings conventional inflation down its no-shock trend. We also find suggestive evidence that rising EURIBOR-3M rate has a detrimental effect on the EA and French labor markets. When it comes to the relationship between the short-term rate and the main macroeconomic variables, our VAR-based findings are consistent with the theoretical predictions of the Neokeynesian framework. 
+In this essay, we build on a VAR model to quantify the effects of variations in the EURIBOR-3M (benchmark short term market rate in Europe) rate on a series of key macroeconomic variables (GDP, inflation, unemployment, investment) both at the Euro Area (EA) level, and in the particular case of France. We map out different scenarios of rise and falls in the EURIBOR-3M to assess the response of the economy to monetary shocks of different kinds and amplitudes. Our model predicts that a one standard-deviation rise in the EURIBOR-3M rate is associated with a significant and lingering drift of the EA GDP down its no-shock trend. Further, we find evidence that a rise in the short term monetary rate brings conventional inflation below its no-shock trend for a substantial period of time. We also find that a rising EURIBOR-3M rate has a detrimental effect on both the EA and the French labor markets. PARLER DES SCENARII
+
+When it comes to the relationship between the short-term rate and the main macroeconomic variables, our VAR-based findings are consistent with the theoretical predictions of the Neo-keynesian framework : a tightening of monetary policy has a negative impact on aggregate demand, which deteriorates employment and brings down inflation in a significant fashion. 
 
 In the first part, we present our data set and provide the origin of our empirical resources. We then present our empirical strategy and the features of our specification in the second part. Finally, the last part exhibits the results of our estimations. 
 
 # Data setting {-}
 
-## Data origin {-}
+## Data origin and features {-}
+
+We extensively rely on macroeconomic data provided by official statistical offices... We choose a timeframe spanning 1997-2018. Why this time span ? 
+
+GDP : real, SA, EURO2005? à vérifier
+FBCE : real, SA
+Our data on unemployment originates from the Eurostat Database
 
 ## A few stylized facts {-}
 
+We provide a sketch of a few stylized facts characterizing the macroeconomic trends in the EA between 1997 and 2018. Likewise, we give similar facts in the particular case of France. 
+
+Graphs short term rate
+
+Graphs variables of aggregate demand : FBCF, Consumption, GDP 
+consistent with the theory, FBCF varies more than consumption?
+
+Graphs unemployment
+
+Graphs price variables
+
+Comment :
+
+Upon careful observation of the above graphs, it is clear that the macroeconomic history of the EA splits out in two periods, respectively spanning 1997-2008, and 2008-2018. The 2008 financial crisis is a watershed marking the start of a period of weaker macroeconomic performance, whether it be for France or the EA as a whole. It is worth noting that the macroeconomic situation is particularly depressed between 2012 and 2015 amid the austerity policies which were implemented in the wake of the sovereign debt crisis. How is France wrt. EA? France performs worse that the EA ! 
+
 # Empirical strategy {-}
 
-## Presentation of the VAR model {-}
+## Presentation of our VAR model {-}
+
+Model specification. And potential identification problems --> necessary to fine tune/adjust the features of the model.  
 
 ## Fine tuning of the model {-}
+
+How many lags? Why? Why this matrix of intertwined effects? --> based on the NK model. We choose to compute orthogonalized IRFs. Why?
 
 # Estimations & results {-}
 
 ## Empirical takeways in the case of the EA {-}
 
 ### Scenario n°1 {-}
+
+A scenario of rise
+
 ### Scenario n°2 {-}
+
+A scenario of fall
 
 ## Empirical takeways in the case of France {-}
 
