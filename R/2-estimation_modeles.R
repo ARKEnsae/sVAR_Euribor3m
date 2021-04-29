@@ -1,111 +1,127 @@
-# clean_eurostat_cache()
-# install.packages("package:ggplot2")
-# install.packages("ecb")
-# install.packages("eurostat")
-# install.packages("mFilter")
-# install.packages("tseries")
-# install.packages("forecast")
-# install.packages("tidyverse")
-# install.packages("TSstudio")
-# installed.packages("urca")
-# installed.packages("vars")
-
 #load packages
 
 # library(ecb)
 # library(eurostat)
-library(urca)
+# library(urca)
 library(vars)
 # library(mFilter)
 # library(tseries)
 # library(TSstudio)
 # library(forecast)
 # library(tidyverse)
+library(mFilter)
 
-matrix <- readRDS("data/data_UE.RDS")
-matrix <- na.omit(matrix[,c("EURIBOR_3M", "lGDP", #"lfbcf", 
-                            "unemployment", "inflation", "underinf")])
-matrix <- window(matrix, end = c(2018,4))
-#Select AIC-suggested lag#
+source("R/Z - Fonctions.R",encoding = "UTF-8")
 
-lagselect <-VARselect(matrix,lag.max=12,type="both")
+data <- readRDS("data/data_UE.RDS")
+data <- na.omit(data[,c("EURIBOR_3M", "lGDP","dlGDP",# "lfbcf", 
+                            "U", "HICP", "underinf")])
+data <- window(data, end = c(2018,4))
 
-lagselect$selection
-p_retenu = 1
-model<-VAR(matrix, p=p_retenu,type = "both")
-# arch.test(model)
-# summary(model)
-plot(stability(model), nc = 4)
-###Forecast Error Impulse Response###
+data = ts.union(data,
+                  hpfilter(data[,"EURIBOR_3M"],freq = 1600)$cycle,
+                  hpfilter(data[,"lGDP"],freq = 1600)$cycle,
+                  hpfilter(data[,"U"],freq = 1600)$cycle,
+                  hpfilter(data[,"HICP"],freq = 1600)$cycle,
+                  hpfilter(data[,"underinf"],freq = 1600)$cycle)
+colnames(data) <- c("EURIBOR_3M", "lGDP","dlGDP",# "lfbcf", 
+                     "U", "HICP", "underinf",
+                     paste(c("EURIBOR_3M", "lGDP",# "lfbcf", 
+                             "U", "HICP", "underinf"),
+                           "detrend",sep="_"))
+library(ggfortify)
+library(patchwork)
+(autoplot(data[,c("EURIBOR_3M",  "EURIBOR_3M_detrend")]) +
+autoplot(data[,c("lGDP","dlGDP",  "lGDP_detrend")])
+) /
+(
+autoplot(data[,c("U",  "U_detrend")]) +
+autoplot(data[,c("HICP",  "HICP_detrend")]) +
+autoplot(data[,c("underinf",  "underinf_detrend")])
+)
 
-forimp <- irf(model, impulse = "EURIBOR_3M",
-           response = c("unemployment","inflation","underinf"),
-           n.ahead = 8, ortho = FALSE, runs = 1000)
-plot(forimp,plot.type="multiple",
-     mar.multi = c(.5, 4, .5, 4))
+var_ordering1 = c("dlGDP",
+                 "U", "underinf","HICP", "EURIBOR_3M")
+var_ordering2 = c("dlGDP",
+                 "U", "underinf","HICP", "EURIBOR_3M")
+# var_retained = c("lGDP_detrend",# "lfbcf",
+#                  "HICP",
+#                  "U", "underinf", "EURIBOR_3M")
+# var_retained = c("lGDP_detrend","U_detrend",
+#                  "EURIBOR_3M_detrend","HICP_detrend", "underinf_detrend")
+#Select AIC-suggested lag
+lagselect <-VARselect(data[,var_ordering1],
+                      lag.max=6,type="const")
+# Tous les indicateurs suggèrent de retenir 2 lags
+lagselect
+p_retenu = 2
+model <- VAR(data[,var_ordering1],
+           p = p_retenu,type = "both")
 
-#response of Unemployment to EURIBOR#
+Hmisc::rcorr(residuals(model))
+# Pas d'autocorrélation dans les résidus
+serial.test(model)
 
-forimp1 <- irf(model, impulse = "EURIBOR_3M", response = "unemployment",
-               n.ahead = 32, ortho = FALSE, runs = 1000)
-plot(forimp1)
+# Pas d'hétéroscédasticité dans les résidus
+arch.test(model)
+plot(stability(model))
 
-#response of dlGDP to EURIBOR#
-
-forimp2 <- irf(model, impulse = "EURIBOR_3M", response = "lGDP",
-               n.ahead = 32, ortho = FALSE, runs = 1000)
-plot(forimp2)
-#response of inflation to EURIBOR#
-
-forimp3 <- irf(model, impulse = "EURIBOR_3M", response = "inflation",
-               n.ahead = 32, ortho = FALSE, runs = 1000)
-plot(forimp3)
-#response of underlying inflation to EURIBOR#
-
-forimp4 <- irf(model, impulse = "EURIBOR_3M", response = "underinf",
-               n.ahead = 32, ortho = FALSE, runs = 1000)
-
-#draw plots
-
-par(mfrow=c(2,2))
-plot(forimp1)
-plot(forimp2)
-plot(forimp3)
-plot(forimp4)
-
-###Orthogonal Impulse Response###
-oir <- irf(model, impulse = "EURIBOR_3M",
-           response = c("unemployment","dlGDP","inflation","underinf"),
-           n.ahead = 8, ortho = TRUE, runs = 1000)
-plot(oir,plot.type="multiple",
-     mar.multi = c(.5, 4, .5, 4))
-#response of Unemployment to EURIBOR#
-
-oir1 <- irf(model, impulse = "EURIBOR_3M", response = "unemployment",
-            n.ahead = 8, ortho = TRUE, runs = 1000)
-
-#response of dlGDP to EURIBOR#
-
-oir2 <- irf(model, impulse = "EURIBOR_3M", response = "dlGDP",
-            n.ahead = 8, ortho = TRUE, runs = 1000)
-
-#response of inflation to EURIBOR#
-
-oir3 <- irf(model, impulse = "EURIBOR_3M", response = "inflation",
-            n.ahead = 8, ortho = TRUE, runs = 1000)
-
-#response of underlying inflation to EURIBOR#
-
-oir4 <- irf(model, impulse = "EURIBOR_3M", response = "underinf",
-            n.ahead = 8, ortho = TRUE, runs = 1000)
+# Pour récupérer le code latex du VAR :
+cat(latexify_var(model,align = T, nb_dec = 2))
 
 
-#draw plots
-plot(oir,plot.type="single")
+Bmat <- diag(nrow = 5)
+Bmat[2,1] <- Bmat[3,1:2] <- 
+    Bmat[4,(1:3)] <- Bmat[5,1:4] <- 
+    diag(Bmat) <- NA
+Bmat <- Bmat[-5,-5]
 
-par(mfrow=c(2,2))
-plot(oir1,plot.type = "single")
-plot(oir2,plot.type = "single")
-plot(oir3,plot.type = "single")
-plot(oir4,plot.type = "single")
-??vars:::plot.varirf
+Bmat <- diag(nrow = 5)
+Bmat[2,1] <- Bmat[3,1:2] <- 
+    Bmat[4,(1:3)] <- Bmat[5,1:4] <- 
+    diag(Bmat) <- NA
+Bmat
+
+Bmat2 <- diag(nrow = 5)
+Bmat2[2,1] <- Bmat2[3,c(1)] <- 
+    Bmat2[4,c(1, 3)] <- Bmat2[5,1:4] <- 
+    diag(Bmat2) <- NA
+Bmat2
+
+Bmat3 <- diag(nrow = 5)
+Bmat3[2,1] <- Bmat3[3,c(3)] <- 
+    Bmat3[4,c(3,4)] <- Bmat3[5,1:4] <- 
+    diag(Bmat3) <- NA
+Bmat3
+
+Bmat4 <- diag(nrow = 5)
+Bmat4[2,1] <- Bmat4[3,c(3,4)] <- 
+    Bmat4[4,c(3,4)] <- Bmat4[5,1:4] <- 
+    diag(Bmat4) <- NA
+Bmat4
+SVAR(model,Bmat = Bmat4)
+
+smodel1 <- SVAR(model,Bmat = Bmat)
+smodel1$B
+cat(latexify_mat(smodel1$B,nb_dec = 2))
+smodel2 <- SVAR(model,Bmat = Bmat2)
+smodel2$B
+smodel3 <- SVAR(model,Bmat = Bmat3)
+
+smodel4 <- SVAR(model,Bmat = Bmat4)
+
+smodelbq <- BQ(model)
+irf_1 <- irf(smodel1, impulse = "EURIBOR_3M_detrend",
+           n.ahead = 20)
+irf_2 <- irf(smodel2, impulse = "EURIBOR_3M_detrend",
+             n.ahead = 20)
+irf_3 <- irf(smodel3, impulse = "EURIBOR_3M_detrend",
+             n.ahead = 20)
+irf_bq <- irf(smodelbq, impulse = "EURIBOR_3M_detrend",,
+             n.ahead = 20)
+plot_irf(irf_1) + ggtitle("Choleski") 
+plot_irf(irf_2) + ggtitle("Modèle 2") 
+plot_irf(irf_3) + ggtitle("Modèle 3") 
+
+plot_irf(irf_bq) + ggtitle("Blanchard Quah") 
+
