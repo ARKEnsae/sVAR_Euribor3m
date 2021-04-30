@@ -26,8 +26,6 @@ p <- (plot_ts(dataUE, "EURIBOR_3M") +
               )
 p & theme_minimal()
 
-
-
 var_ordering1 = c("dlGDP",
                  "U", "underinf","HICP", "EURIBOR_3M")
 var_ordering2 = c("EURIBOR_3M", "dlGDP",
@@ -95,13 +93,13 @@ irf_2 <- irf(smodel2, impulse = "EURIBOR_3M",
 irf_2_bq <- irf(smodel2_bq, impulse = "EURIBOR_3M",
                 n.ahead = 20)
 
-plot_irf(irf_1_chol) + ggtitle("Choleski") 
-plot_irf(irf_1) + ggtitle("Matrice affinée") # Quasiment même résultat
+plot_irf(irf_1_chol) + ggtitle("Choleski - supply") 
+plot_irf(irf_1) + ggtitle("Matrice affinée - supply") # Quasiment même résultat
 
-plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition") 
+plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition- supply") 
 
-plot_irf(irf_2) + ggtitle("Choleski")
-plot_irf(irf_2_bq) + ggtitle("Blanchard Quah decomposition")
+plot_irf(irf_2) + ggtitle("Choleski - demand")
+plot_irf(irf_2_bq) + ggtitle("Blanchard Quah decomposition - demand")
 
 # decomposition de la variance
 fevd <- fevd(smodel1, n.ahead = 20)
