@@ -96,22 +96,28 @@ How many lags? Why? Why this matrix of intertwined effects? --> based on the NK 
 
 In this section, we depict the results of the our estimation endeavor.
 
-## Empirical takeways in the case of the EA {-}
+## A demand oriented set of scenarios {-}
 
-### Scenario n°1 {-}
+Narrative : the CB attempts to cool down the economy
 
-A scenario of rise
+- Homemade matrix 1 : Euribor is the primary force at play. GDP reacts contemporaneously to Euribor. Unemployment follows contemporaneously. Both inflation and underlying inflation follow with delay (France, EZ)
+- Homemade matrix 2 : Underlying inflation is the primary force at play. Euribor follows contemporaneously, GDP reacts contemporaneously to Euribor. Unemployment follows contemporaneously and inflation reacts with delay (France, EZ)
 
-### Scenario n°2 {-}
+comparison with : 
 
-A scenario of fall
+- BQ (France, EZ)
 
-## Empirical takeways in the case of France {-}
+## A supply oriented set of scenarios {-}
 
-### Scenario n°1 {-}
-### Scenario n°2 {-}
+Narrative : the economy reacts to a supply shock, namely and exogenous drop in GDP
 
-Upon careful examnitation of the above IRFs, we notice that a rise in the Euribor has a significant effect on GDP ... A one SS rise in the Euribor is associated with ... long drift of GDP below its no shock trend. What's more, a similar rise in the Euribor goes along a significant rise in the unemployment rate... 
+- Homemade matrix 1 : GDP is the primary force at play. Unemployment follows contemporaneously. So do inflation, underlying inflation and Euribor (France, EZ)
+
+comparison with : 
+
+- BQ (France, EZ)
+
+Upon careful examination of the above IRFs, we notice that a rise in the Euribor has a significant effect on GDP ... A one SS rise in the Euribor is associated with ... long drift of GDP below its no shock trend. What's more, a similar rise in the Euribor goes along a significant rise in the unemployment rate... 
 
 The above observations provide evidence that our findings are consistent with some key theoretical predictions of the Neo Keynesian model: 
  
