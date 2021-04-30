@@ -9,119 +9,103 @@ library(vars)
 # library(TSstudio)
 # library(forecast)
 # library(tidyverse)
-library(mFilter)
+
 
 source("R/Z - Fonctions.R",encoding = "UTF-8")
 
-data <- readRDS("data/data_UE.RDS")
-data <- na.omit(data[,c("EURIBOR_3M", "lGDP","dlGDP",# "lfbcf", 
+dataUE <- readRDS("data/data_UE.RDS")
+dataUE <- na.omit(dataUE[,c("EURIBOR_3M", "lGDP","dlGDP",
                             "U", "HICP", "underinf")])
-data <- window(data, end = c(2018,4))
+dataUE <- window(dataUE, end = c(2018,4))
 
-data = ts.union(data,
-                  hpfilter(data[,"EURIBOR_3M"],freq = 1600)$cycle,
-                  hpfilter(data[,"lGDP"],freq = 1600)$cycle,
-                  hpfilter(data[,"U"],freq = 1600)$cycle,
-                  hpfilter(data[,"HICP"],freq = 1600)$cycle,
-                  hpfilter(data[,"underinf"],freq = 1600)$cycle)
-colnames(data) <- c("EURIBOR_3M", "lGDP","dlGDP",# "lfbcf", 
-                     "U", "HICP", "underinf",
-                     paste(c("EURIBOR_3M", "lGDP",# "lfbcf", 
-                             "U", "HICP", "underinf"),
-                           "detrend",sep="_"))
-library(ggfortify)
-library(patchwork)
-(autoplot(data[,c("EURIBOR_3M",  "EURIBOR_3M_detrend")]) +
-autoplot(data[,c("lGDP","dlGDP",  "lGDP_detrend")])
-) /
-(
-autoplot(data[,c("U",  "U_detrend")]) +
-autoplot(data[,c("HICP",  "HICP_detrend")]) +
-autoplot(data[,c("underinf",  "underinf_detrend")])
-)
+p <- (plot_ts(dataUE, "EURIBOR_3M") +
+          plot_ts(dataUE, "dlGDP"))/(
+              plot_ts(dataUE, "U") + 
+                  plot_ts(dataUE, "HICP") + 
+                  plot_ts(dataUE, "underinf")
+              )
+p & theme_minimal()
+
+
 
 var_ordering1 = c("dlGDP",
                  "U", "underinf","HICP", "EURIBOR_3M")
-var_ordering2 = c("dlGDP",
-                 "U", "underinf","HICP", "EURIBOR_3M")
+var_ordering2 = c("EURIBOR_3M", "dlGDP",
+                 "U", "underinf","HICP")
 # var_retained = c("lGDP_detrend",# "lfbcf",
 #                  "HICP",
 #                  "U", "underinf", "EURIBOR_3M")
 # var_retained = c("lGDP_detrend","U_detrend",
 #                  "EURIBOR_3M_detrend","HICP_detrend", "underinf_detrend")
 #Select AIC-suggested lag
-lagselect <-VARselect(data[,var_ordering1],
+lagselect <-VARselect(dataUE[,var_ordering1],
                       lag.max=6,type="const")
 # Tous les indicateurs suggèrent de retenir 2 lags
 lagselect
 p_retenu = 2
-model <- VAR(data[,var_ordering1],
-           p = p_retenu,type = "both")
 
-Hmisc::rcorr(residuals(model))
+# L'ordre des variables n'aura pas d'impact sur les analyses du VAR
+# mais uniquement dans la spécification du sVAR
+model <- VAR(dataUE[,var_ordering1],
+           p = p_retenu,type = "both")
+model2 <- VAR(dataUE[,var_ordering2],
+             p = p_retenu,type = "both")
 # Pas d'autocorrélation dans les résidus
 serial.test(model)
 
 # Pas d'hétéroscédasticité dans les résidus
 arch.test(model)
+# Ni de problème de stabilité dans les coefficients
 plot(stability(model))
 
 # Pour récupérer le code latex du VAR :
 cat(latexify_var(model,align = T, nb_dec = 2))
+cat(latexify_mat(var(residuals(model)), nb_dec = 5))
 
+
+Bmat_chol <- diag(nrow = 5)
+Bmat_chol[2,1] <- Bmat_chol[3,1:2] <- 
+    Bmat_chol[4,(1:3)] <- Bmat_chol[5,1:4] <- 
+    diag(Bmat_chol) <- NA
+Bmat_chol # Choleski
 
 Bmat <- diag(nrow = 5)
-Bmat[2,1] <- Bmat[3,1:2] <- 
-    Bmat[4,(1:3)] <- Bmat[5,1:4] <- 
+Bmat[2,1] <- Bmat[3,c(1)] <- 
+    Bmat[4,c(1, 3)] <- Bmat[5,1:4] <- 
     diag(Bmat) <- NA
-Bmat <- Bmat[-5,-5]
+Bmat # affiné
 
-Bmat <- diag(nrow = 5)
-Bmat[2,1] <- Bmat[3,1:2] <- 
-    Bmat[4,(1:3)] <- Bmat[5,1:4] <- 
-    diag(Bmat) <- NA
-Bmat
+smodel1_chol <- SVAR(model,Bmat = Bmat_chol)
+smodel1 <- SVAR(model,Bmat = Bmat) 
+smodel1_chol$B # coefficients imposés à 0 proches de 0
 
-Bmat2 <- diag(nrow = 5)
-Bmat2[2,1] <- Bmat2[3,c(1)] <- 
-    Bmat2[4,c(1, 3)] <- Bmat2[5,1:4] <- 
-    diag(Bmat2) <- NA
-Bmat2
+smodel2 <- SVAR(model2,Bmat = Bmat_chol)
 
-Bmat3 <- diag(nrow = 5)
-Bmat3[2,1] <- Bmat3[3,c(3)] <- 
-    Bmat3[4,c(3,4)] <- Bmat3[5,1:4] <- 
-    diag(Bmat3) <- NA
-Bmat3
-
-Bmat4 <- diag(nrow = 5)
-Bmat4[2,1] <- Bmat4[3,c(3,4)] <- 
-    Bmat4[4,c(3,4)] <- Bmat4[5,1:4] <- 
-    diag(Bmat4) <- NA
-Bmat4
-SVAR(model,Bmat = Bmat4)
-
-smodel1 <- SVAR(model,Bmat = Bmat)
-smodel1$B
-cat(latexify_mat(smodel1$B,nb_dec = 2))
-smodel2 <- SVAR(model,Bmat = Bmat2)
-smodel2$B
-smodel3 <- SVAR(model,Bmat = Bmat3)
-
-smodel4 <- SVAR(model,Bmat = Bmat4)
-
-smodelbq <- BQ(model)
-irf_1 <- irf(smodel1, impulse = "EURIBOR_3M_detrend",
+smodel1_bq <- BQ(model)
+smodel2_bq <- BQ(model2)
+irf_1 <- irf(smodel1, impulse = "EURIBOR_3M",
            n.ahead = 20)
-irf_2 <- irf(smodel2, impulse = "EURIBOR_3M_detrend",
+irf_1_chol <- irf(smodel1_chol, impulse = "EURIBOR_3M",
              n.ahead = 20)
-irf_3 <- irf(smodel3, impulse = "EURIBOR_3M_detrend",
-             n.ahead = 20)
-irf_bq <- irf(smodelbq, impulse = "EURIBOR_3M_detrend",,
-             n.ahead = 20)
-plot_irf(irf_1) + ggtitle("Choleski") 
-plot_irf(irf_2) + ggtitle("Modèle 2") 
-plot_irf(irf_3) + ggtitle("Modèle 3") 
+irf_1_bq <- irf(smodel1_bq, impulse = "EURIBOR_3M",
+                  n.ahead = 20)
 
-plot_irf(irf_bq) + ggtitle("Blanchard Quah") 
+irf_2 <- irf(smodel2, impulse = "EURIBOR_3M",
+             n.ahead = 20)
+irf_2_bq <- irf(smodel2_bq, impulse = "EURIBOR_3M",
+                n.ahead = 20)
+
+plot_irf(irf_1_chol) + ggtitle("Choleski") 
+plot_irf(irf_1) + ggtitle("Matrice affinée") # Quasiment même résultat
+
+plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition") 
+
+plot_irf(irf_2) + ggtitle("Choleski")
+plot_irf(irf_2_bq) + ggtitle("Blanchard Quah decomposition")
+
+# decomposition de la variance
+fevd <- fevd(smodel1, n.ahead = 20)
+plot_fevd(fevd)
+
+
 
