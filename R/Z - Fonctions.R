@@ -69,7 +69,7 @@ plot_fevd <- function(fevd,
                    scales = "free", strip.position = "top",
                    labeller = labeller)+
         theme_bw()+xlab("Horizon") + ylab("Percentage") +
-        scale_fill_hue(
+        scale_fill_viridis_d(
             breaks = levels(data_plot$variable),
             labels = unlist(label_parsed(levels(data_plot$variable))))
 }
