@@ -40,26 +40,26 @@ unemp<-ts(unem$values,start=c(substr(unem$time[1],1,4),1), freq=4)
 
 ##inflation and underlying inflation (From ECB database)
 
-hicp <-get_data("ICP.M.U2.N.000000.4.ANR",
-                filter = list(startPeriod ="1997-01")
+hicp <-get_data("ICP.M.U2.N.000000.4.INX"
 )
-hicp<-ts(hicp$obsvalue,start=c(1997,1), freq=12)
+hicp<-ts(hicp$obsvalue,
+         start=as.numeric(c(substr(hicp$obstime[1],1,4),
+                 substr(hicp$obstime[1],6,7))),
+         freq=12)
 hicpq <- aggregate(as.zoo(hicp), yearqtr, mean)
 hicpq <- as.ts(hicpq)
-# Autre option :
-# https://appsso.eurostat.ec.europa.eu/nui/show.do?dataset=prc_hicp_midx&lang=fr
+hicpq <- hicpq/lag(hicpq,-4)-1 # glissement annuel
 
-infex <-get_data("ICP.M.U2.N.XEF000.4.ANR",
-                 filter = list(startPeriod ="1997-01")
+infex <-get_data("ICP.M.U2.N.XEF000.4.INX"
 )
-infex<-ts(infex$obsvalue,start=1997, freq=12)
+infex<-ts(infex$obsvalue,
+          start=as.numeric(c(substr(infex$obstime[1],1,4),
+                             substr(infex$obstime[1],6,7))),
+          freq=12)
 infexq <- aggregate(as.zoo(infex), yearqtr, mean)
 infexq <- as.ts(infexq)
+infexq <- infexq/lag(infexq,-4)-1 # glissement annuel
 
-
-get_eurostat(
-    "TEICP220"
-) 
 data <- ts.union(euribor, dlgdp,gdp, unemp, hicpq, infexq)
 colnames(data)<-cbind("EURIBOR_3M", "dlGDP","lGDP",
                       "U","HICP","underinf")
@@ -71,11 +71,10 @@ saveRDS(data, file="data/data_UE.RDS")
 
 # Indice d'inflation sous-jacente - Base 2015 - Ensemble des ménages - France métropolitaine - Ensemble
 infex <- lectureBDM("001769686")
-ga <- function(x){
-    x/lag(x,-12)-1
-}
-infexq <- aggregate(as.zoo(ga(infex)), yearqtr, mean)
+infexq <- aggregate(as.zoo(infex), yearqtr, mean)
 infexq <- as.ts(infexq)
+infexq <- infexq/lag(infexq,-4)-1 # glissement annuel
+
 # Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - Série CVS-CJO aux prix de l'année précédente chaînés - Série CVS-CJO
 gdp <- log(lectureBDM("010565708"))
 dlgdp <- diff(gdp)
@@ -83,9 +82,10 @@ dlgdp <- diff(gdp)
 #Taux de chômage au sens du BIT - Ensemble - France métropolitaine - Données CVS
 unemp <- lectureBDM("001688526")
 
-hicp <- ga(lectureBDM("001759971"))
+hicp <- lectureBDM("001759971")
 hicpq <- aggregate(as.zoo(hicp), yearqtr, mean)
 hicpq <- as.ts(hicpq)
+hicpq <- hicpq/lag(hicpq,-4)-1 # glissement annuel
 
 data <- ts.union(euribor, dlgdp,gdp, unemp, hicpq, infexq)
 colnames(data)<-cbind("EURIBOR_3M", "dlGDP","lGDP",

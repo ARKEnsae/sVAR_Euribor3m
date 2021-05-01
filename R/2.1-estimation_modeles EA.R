@@ -23,7 +23,8 @@ p <- (plot_ts(dataUE, "EURIBOR_3M") +
                   plot_ts(dataUE, "HICP") + 
                   plot_ts(dataUE, "underinf")
               )
-p & theme_minimal()
+(p & theme_minimal() )+ 
+    plot_annotation(title = 'European Aera')
 
 var_ordering1 = c("dlGDP",
                  "U", "underinf","HICP", "EURIBOR_3M")

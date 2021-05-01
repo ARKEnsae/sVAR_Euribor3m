@@ -23,7 +23,8 @@ p <- (plot_ts(dataFR, "EURIBOR_3M") +
                   plot_ts(dataFR, "HICP") + 
                   plot_ts(dataFR, "underinf")
               )
-p & theme_minimal()
+(p & theme_minimal() )+ 
+    plot_annotation(title = 'France')
 
 var_ordering1 = c("dlGDP",
                  "U", "underinf","HICP", "EURIBOR_3M")
@@ -37,9 +38,9 @@ var_ordering2 = c("EURIBOR_3M", "dlGDP",
 #Select AIC-suggested lag
 lagselect <-VARselect(dataFR[,var_ordering1],
                       lag.max=6,type="const")
-# Tous les indicateurs suggèrent de retenir 2 lags
+# Le critère du BIC indique 1 lag
 lagselect
-p_retenu = 2
+p_retenu = 1
 
 # L'ordre des variables n'aura pas d'impact sur les analyses du VAR
 # mais uniquement dans la spécification du sVAR
