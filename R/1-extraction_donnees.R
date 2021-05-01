@@ -72,7 +72,7 @@ saveRDS(data, file="data/data_UE.RDS")
 # Indice d'inflation sous-jacente - Base 2015 - Ensemble des ménages - France métropolitaine - Ensemble
 infex <- lectureBDM("001769686")
 ga <- function(x){
-    x/lag(x,-12)
+    x/lag(x,-12)-1
 }
 infexq <- aggregate(as.zoo(ga(infex)), yearqtr, mean)
 infexq <- as.ts(infexq)
