@@ -10,7 +10,6 @@ library(vars)
 # library(forecast)
 # library(tidyverse)
 
-
 source("R/Z - Fonctions.R",encoding = "UTF-8")
 
 dataUE <- readRDS("data/data_UE.RDS")
