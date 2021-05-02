@@ -1,0 +1,1117 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  10pt,
+]{article}
+\usepackage{lmodern}
+\usepackage{amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+  \usepackage{amssymb}
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=0.80in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\usepackage[T1]{fontenc}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{natbib}
+\usepackage{fontawesome5}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage{dsfont}
+\usepackage{bbold}
+\usepackage{xspace}
+\usepackage{enumitem}
+\usepackage{pifont}
+\usepackage{wrapfig}
+\usepackage{textpos}
+\usepackage{array}
+\usepackage{multicol}
+\ifluatex
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+
+\title{~\includegraphics[width=\textwidth,height=2.5cm]{img/LOGO-ENSAE.png}\\
+\hspace*{0.333em}\textsc{Applied macroeconometrics}\\
+\hspace*{0.333em}Les effets d'une hausse de l'Euribor 3-mois}
+\author{Valentin Giust, Gautier Lenfant et Alain Quartier-la-Tente}
+\date{}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{2}
+\tableofcontents
+}
+\vfill
+
+The source code and this repport is also available at \url{https://github.com/AQLT/AppliedMacroEuribor}.
+
+\newpage
+
+\hypertarget{introduction}{%
+\section*{Introduction}\label{introduction}}
+\addcontentsline{toc}{section}{Introduction}
+
+In this essay, we build on a VAR model to quantify the effects of variations in the Euribor-3M (benchmark short term market rate in Europe) rate on a series of key macroeconomic variables (GDP, inflation, unemployment, investment) both at the Euro Area (EA) level, and in the particular case of France. We map out different scenarios of rise and falls in the Euribor-3M to assess the response of the economy to monetary shocks of different kinds and amplitudes. Our model predicts that a one standard-deviation rise in the Euribor-3M rate is associated with a significant and lingering drift of the EA GDP down its no-shock trend. Further, we find evidence that a rise in the short term monetary rate brings conventional inflation below its no-shock trend for a substantial period of time. We also find that a rising Euribor-3M rate has a detrimental effect on both the EA and the French labor markets. PARLER DES SCENARII
+
+When it comes to the relationship between the short-term rate and the main macroeconomic variables, our VAR-based findings are consistent with the theoretical predictions of the Neo-keynesian framework : a tightening of monetary policy has a negative impact on aggregate demand, which deteriorates employment and brings down inflation in a significant fashion.
+
+In the first part, we present our data set and provide the origin of our empirical resources. We then present our empirical strategy and the features of our specification in the second part. Finally, the last part exhibits the results of our estimations.
+
+\hypertarget{data-setting}{%
+\section*{Data setting}\label{data-setting}}
+\addcontentsline{toc}{section}{Data setting}
+
+\hypertarget{data-origin-and-features}{%
+\subsection*{Data origin and features}\label{data-origin-and-features}}
+\addcontentsline{toc}{subsection}{Data origin and features}
+
+ORIGIN
+
+We extensively rely on macroeconomic data provided by official statistical offices\ldots{} We choose a time frame spanning 1997-2018. Why this time span ?
+
+GDP : real, SA, EURO2005? à vérifier
+FBCE : real, SA
+Our data on unemployment originates from the Eurostat Database
+
+FEATURES \& STATIONARITY
+
+Before implementing the VAR model, we make sure that our variables feature stationarity. Why ? We thus detrend consumption, unemployment \ldots{} The following KPSS tests provides strong evidence for the stationarity of our macroeconomic variables.
+
+Graphs
+
+\hypertarget{a-few-stylized-facts}{%
+\subsection*{A few stylized facts}\label{a-few-stylized-facts}}
+\addcontentsline{toc}{subsection}{A few stylized facts}
+
+In this subsection, we exhibit a few stylized facts characterizing the macroeconomic trends in the EA between 1997 and 2018. Likewise, we give similar facts in the particular case of France.
+
+ALL GRAPHS BOUND TOGETHER DANS UN FRAME ENTRE 1997 et 2018
+
+Graphs short term rate
+
+Graphs variables of aggregate demand : FBCF, Consumption, GDP
+consistent with the theory, FBCF varies more than consumption?
+
+Graphs unemployment
+
+Graphs price variables
+
+Comment :
+
+Upon careful observation of the above graphs, it is clear that the macroeconomic history of the EA splits out in two periods, respectively spanning 1997-2008, and 2008-2018. The 2008 financial crisis is a watershed marking the start of a period of weaker macroeconomic performance, whether it be for France or the EA as a whole. It is worth noting that the macroeconomic situation is particularly depressed between 2012 and 2015 amid the austerity policies which were implemented in the wake of the sovereign debt crisis. How is France wrt. EA? France performs worse that the EA ! Parler justement de ce qu'on observe entre les taux et les macro variables. A noteworthy observation is that the EA economy fell deeper in the wake of the 2011 policy rate rise, which translated into a rise in the Euribor rate.
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-data-ue-1.pdf}
+\caption{\label{fig:plot-data-ue}European Area data plots.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-data-fr-1.pdf}
+\caption{\label{fig:plot-data-fr}French data plots.}
+\end{figure}
+
+\hypertarget{empirical-strategy}{%
+\section{Empirical strategy}\label{empirical-strategy}}
+
+In this section, we describe and explain the features of our VAR specification.
+In the this report, we will use the following notations:
+
+\begin{itemize}
+\tightlist
+\item
+  \(y_t\) for the log of the GDP;
+\item
+  \(U_t\) for the unemployment;
+\item
+  \(\pi_t\) for the inflation (year on year evolution of the HICP);
+\item
+  \(\pi_t^{core}\) for the core inflation (year on year evolution);
+\item
+  \(R_t\) for 3 months EURIBOR rate.
+\end{itemize}
+
+The same specification is used for the European Area and the French dataset:
+
+\begin{itemize}
+\item
+  We estimate a VAR model with a constant and a linear trend.
+\item
+  The number of lags of the model is determined by minimizing the Schwarz information criterion: we find that 1 lag is enough to have a well specified model (no serial correlation, stability of the estimates and no ARCH effect).
+\end{itemize}
+
+Equations \eqref{eq:var-ea} and \eqref{eq:var-fr} shows the estimated parameters and the t-sat of the VAR model, respectively for the European Aera and for the French data.
+
+\begin{equation}
+\begin{pmatrix}
+ \Delta y_{t} \\
+U_{t} \\
+\pi^{core}_{t} \\
+\pi_{t} \\
+R_{t} 
+\end{pmatrix} = \begin{pmatrix}
+ \underset{(0.01)}{0.03} & \underset{(0.00)}{-0.00} \\
+\underset{(0.32)}{-0.76} & \underset{(0.00)}{0.00} \\
+\underset{(0.00)}{0.00} & \underset{(0.00)}{0.00} \\
+\underset{(0.01)}{0.01} & \underset{(0.00)}{-0.00} \\
+\underset{(0.56)}{0.51} & \underset{(0.00)}{-0.00} 
+\end{pmatrix} \begin{pmatrix} 1 \\ t \end{pmatrix}+\begin{pmatrix}
+ \underset{(0.11)}{0.24} & \underset{(3.35)}{-16.20} & \underset{(0.03)}{0.08} & \underset{(0.07)}{0.32} & \underset{(5.84)}{31.29} \\
+\underset{(0.00)}{-0.00} & \underset{(0.02)}{1.03} & \underset{(0.00)}{-0.00} & \underset{(0.00)}{-0.00} & \underset{(0.03)}{-0.03} \\
+\underset{(0.21)}{-0.48} & \underset{(6.55)}{18.55} & \underset{(0.07)}{0.85} & \underset{(0.14)}{-0.00} & \underset{(11.44)}{-11.01} \\
+\underset{(0.09)}{-0.11} & \underset{(2.75)}{4.25} & \underset{(0.03)}{0.04} & \underset{(0.06)}{0.90} & \underset{(4.79)}{10.51} \\
+\underset{(0.00)}{-0.00} & \underset{(0.03)}{0.02} & \underset{(0.00)}{0.00} & \underset{(0.00)}{-0.00} & \underset{(0.05)}{0.89} 
+\end{pmatrix} \begin{pmatrix}
+ \Delta y_{t - 1} \\
+U_{t - 1} \\
+\pi^{core}_{t - 1} \\
+\pi_{t - 1} \\
+R_{t - 1} 
+\end{pmatrix}+ \varepsilon^{EA}_t
+\label{eq:var-ea}
+\end{equation}
+
+\begin{equation}
+\begin{pmatrix}
+ \Delta y_{t} \\
+U_{t} \\
+\pi^{core}_{t} \\
+\pi_{t} \\
+R_{t} 
+\end{pmatrix} = \begin{pmatrix}
+ \underset{(0.01)}{0.02} & \underset{(0.00)}{-0.00} \\
+\underset{(0.60)}{0.18} & \underset{(0.00)}{-0.00} \\
+\underset{(0.01)}{0.02} & \underset{(0.00)}{0.00} \\
+\underset{(0.01)}{0.02} & \underset{(0.00)}{0.00} \\
+\underset{(0.88)}{0.91} & \underset{(0.00)}{-0.00} 
+\end{pmatrix} \begin{pmatrix} 1 \\ t \end{pmatrix}+\begin{pmatrix}
+ \underset{(0.10)}{0.32} & \underset{(5.42)}{-27.97} & \underset{(0.05)}{0.06} & \underset{(0.11)}{0.53} & \underset{(7.91)}{45.45} \\
+\underset{(0.00)}{-0.00} & \underset{(0.05)}{1.01} & \underset{(0.00)}{-0.00} & \underset{(0.00)}{-0.00} & \underset{(0.07)}{-0.10} \\
+\underset{(0.13)}{-0.24} & \underset{(7.41)}{5.34} & \underset{(0.07)}{0.74} & \underset{(0.15)}{0.18} & \underset{(10.81)}{-14.48} \\
+\underset{(0.06)}{-0.04} & \underset{(3.23)}{4.24} & \underset{(0.03)}{-0.06} & \underset{(0.06)}{0.75} & \underset{(4.72)}{3.97} \\
+\underset{(0.00)}{-0.00} & \underset{(0.03)}{-0.05} & \underset{(0.00)}{0.00} & \underset{(0.00)}{-0.00} & \underset{(0.05)}{0.94} 
+\end{pmatrix} \begin{pmatrix}
+ \Delta y_{t - 1} \\
+U_{t - 1} \\
+\pi^{core}_{t - 1} \\
+\pi_{t - 1} \\
+R_{t - 1} 
+\end{pmatrix}+ \varepsilon^{FR}_t
+\label{eq:var-fr}
+\end{equation}
+
+Equation \eqref{eq:variances} shows the estimates of the covariance matrix of the residuals.
+We can notice that those matrices are not diagonal: this means that a shock on a component is correlated to a shock on the other components.
+It implies that we cannot directly estimate the impact of a shock on the 3 months Euribor rates, \(R_t\).
+To do so, we need to make some assumptions on the propagation of the shocks that are described in section \ref{sec:est}.
+
+\begin{equation}
+\mathbb{V}\varepsilon^{EA}_t = 
+\begin{pmatrix}
+ 1.00 & -0.61 & -0.21 & 0.06 & 0.41 \\
+-0.61 & 1.00 & 0.07 & 0.02 & -0.41 \\
+-0.21 & 0.07 & 1.00 & 0.20 & -0.06 \\
+0.06 & 0.02 & 0.20 & 1.00 & 0.25 \\
+0.41 & -0.41 & -0.06 & 0.25 & 1.00 
+\end{pmatrix}
+\quad
+\mathbb{V}\varepsilon^{FR}_t = 
+\begin{pmatrix}
+ 1.00 & -0.44 & -0.06 & 0.24 & 0.48 \\
+-0.44 & 1.00 & -0.06 & -0.23 & -0.40 \\
+-0.06 & -0.06 & 1.00 & 0.13 & 0.00 \\
+0.24 & -0.23 & 0.13 & 1.00 & 0.31 \\
+0.48 & -0.40 & 0.00 & 0.31 & 1.00 
+\end{pmatrix}
+\label{eq:variances}
+\end{equation}
+
+\hypertarget{sec:est}{%
+\section{Estimations of a shock on the 3 months Euribor rate}\label{sec:est}}
+
+In this section, we depict the results of the our estimation endeavor.
+
+\hypertarget{a-demand-oriented-set-of-scenarios}{%
+\subsection{A demand oriented set of scenarios}\label{a-demand-oriented-set-of-scenarios}}
+
+In the first scenario, demand oriented, we suppose that Euribor is the primary force at play. GDP reacts contemporaneously to Euribor and impacts all the other variables. Unemployment follows contemporaneously. Both inflation and core inflation follow with delay.
+
+Statistically speaking, this scenario is equivalent to reorder the variables in the order
+\(\begin{pmatrix} R_{t} &\Delta y_{t} & U_{t} &\pi^{core}_{t} &\pi_{t} \end{pmatrix}\) and to estimate a matrix \(B_1\), such has \(\mathbb V\varepsilon_t=B_1B_1'\) and with the following constraints:
+\[ B_1\sim\begin{pmatrix}1 & 0 & 0 & 0 & 0\\
+* & 1 & 0 & 0 & 0\\
+* & * & 1 & 0 & 0\\
+0 & 0 & 0 & 1 & 0\\
+0 & 0 & 0 & * & 1
+\end{pmatrix}\]
+Using the data, we found the following \(B\) matrices\footnote{
+  Note that not imposing any coefficient in the lower triangular matrix \(B_1\) to be null (and so to compute a Choleski decomposition) would not change the results. Indeed, in that case the estimates of the associated coefficients are closed to zero.}:
+\[B_1^{EA} =\begin{pmatrix}
+ 0.288 & 0.000 & 0.000 & 0.000 & 0.000 \\
+0.002 & 0.005 & 0.000 & 0.000 & 0.000 \\
+-0.068 & -0.080 & 0.128 & 0.000 & 0.000 \\
+0.000 & 0.000 & 0.000 & 0.002 & 0.000 \\
+0.000 & 0.000 & 0.000 & 0.001 & 0.003 
+\end{pmatrix}
+\quad
+B_1^{FR}=\begin{pmatrix}
+ 0.284 & 0.000 & 0.000 & 0.000 & 0.000 \\
+0.002 & 0.003 & 0.000 & 0.000 & 0.000 \\
+-0.078 & -0.054 & 0.170 & 0.000 & 0.000 \\
+0.000 & 0.000 & 0.000 & 0.002 & 0.000 \\
+0.000 & 0.000 & 0.000 & 0.001 & 0.004 
+\end{pmatrix}\]
+
+\hypertarget{a-supply-oriented-set-of-scenarios}{%
+\subsection{A supply oriented set of scenarios}\label{a-supply-oriented-set-of-scenarios}}
+
+In the second scenario, supply oriented, we will suppose that GDP is the primary force at play: a shock in the GDP contemporaneously affects all the variables. Then unemployment follows contemporaneously but a shock on the unemployment only affects inflation and core inflation with delay. Finally, the Euribor is contemporaneously affected by a shock on the other variables but the opposite is not true (a shock in the Euribor will only affect with delay the other components).
+
+Statistically speaking, this scenario is equivalent to use the same order of the variables than in equations \eqref{eq:var-ea} and \eqref{eq:var-fr}and to estimate a matrix \(B_2\), such has \(\mathbb V\varepsilon_t=B_2B_2'\) and with the following constraints:
+\[ B_2\sim\begin{pmatrix}1 & 0 & 0 & 0 & 0\\
+* & 1 & 0 & 0 & 0\\
+* & 0 & 1 & 0 & 0\\
+* & 0 & * & 1 & 0\\
+* & * & * & * & 1
+\end{pmatrix}\]
+Using the data, we found the following \(B\) matrices\footnote{
+  Note that, as in the previous section, not imposing any coefficient in the lower triangular matrix \(B_2\) to be null (and so to compute a Choleski decomposition) would not change the results. Indeed, in that case the estimates of the associated coefficients are closed to zero.}:
+\[B_2^{EA} =\begin{pmatrix}
+ 0.005 & 0.000 & 0.000 & 0.000 & 0.000 \\
+-0.101 & 0.131 & 0.000 & 0.000 & 0.000 \\
+-0.000 & 0.000 & 0.002 & 0.000 & 0.000 \\
+0.000 & 0.000 & 0.001 & 0.003 & 0.000 \\
+0.119 & -0.064 & 0.002 & 0.072 & 0.246 
+\end{pmatrix}
+\quad
+B_2^{FR}=\begin{pmatrix}
+ 0.003 & 0.000 & 0.000 & 0.000 & 0.000 \\
+-0.085 & 0.175 & 0.000 & 0.000 & 0.000 \\
+-0.000 & 0.000 & 0.002 & 0.000 & 0.000 \\
+0.001 & 0.000 & 0.001 & 0.004 & 0.000 \\
+0.135 & -0.054 & 0.004 & 0.051 & 0.237 
+\end{pmatrix}\]
+
+\hypertarget{impulse-response-functions}{%
+\subsection{Impulse response functions}\label{impulse-response-functions}}
+
+In the demand scenario, upon careful examination of the IRFs (figures \ref{fig:plot-irf-ea-demand} and \ref{fig:plot-irf-fr-demand}), we notice that a unitary shock in the Euribor has a significant effect contemporaneous effect in GDP (positively) and in the unemployment (negatively).
+It implies a backlash in the GDP that decreases in the first year and then slowly returns to normal.
+This mechanism involves a decrease in the unemployment in the first quarters and then returns to normal, and an increase in the core inflation and in the inflation during the first year. The impact is higher in the core inflation than in the inflation, the first being more sensitive to the changes in GDP and in unemployment. The Euribor continues to increase in the first quarter after the shock, then begin to decreases and returns to normal after 3 years.
+The same evolutions are observes for the French economy and for the European Area. However, in the European Area economy, we observe a lower impact of the shock and a faster return to normal.
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-ea-demand-1.pdf}
+\caption{\label{fig:plot-irf-ea-demand}Responses functions on the European Aera economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the demand scenario.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-fr-demand-1.pdf}
+\caption{\label{fig:plot-irf-fr-demand}Responses functions on the French economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the demand scenario.}
+\end{figure}
+
+In the supply scenario, upon careful examination of the IRFs (figures \ref{fig:plot-irf-ea-supply} and \ref{fig:plot-irf-fr-supply}), we notice that a unitary shock in the Euribor has no significant effect on the unemployment and the core inflation.
+However, this shocks involves a decrease in the GDP that returns to normal after almost 3 years.
+Unlike what we observe in the demand scenario, the inflation decreases in the first year and then returns to normal.
+The Euribor slowly returns to normal.
+The same evolutions are observes for the French economy and for the European Area.
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-ea-supply-1.pdf}
+\caption{\label{fig:plot-irf-ea-supply}Responses functions on the European Aera economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the supply scenario.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-fr-supply-1.pdf}
+\caption{\label{fig:plot-irf-fr-supply}Responses functions on the French economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the supply scenario.}
+\end{figure}
+
+The above observations provide evidence that our findings are consistent with some key theoretical predictions of the Neo Keynesian model:
+
+\newpage
+
+J'ai rajouté les gaphiques Blanchard Quah au cas où mais je pense que ce n'est pas la peine de les mettre.
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-ea-demand-bq-1.pdf}
+\caption{\label{fig:plot-irf-ea-demand-bq}Responses functions on the European Aera economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the demand scenario (Blanchard Quah).}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-fr-demand-bq-1.pdf}
+\caption{\label{fig:plot-irf-fr-demand-bq}Responses functions on the French economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the demand scenario (Blanchard Quah).}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-ea-supply-bq-1.pdf}
+\caption{\label{fig:plot-irf-ea-supply-bq}Responses functions on the European Aera economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the supply scenario (Blanchard Quah).}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics{img/markdown-plot-irf-fr-supply-bq-1.pdf}
+\caption{\label{fig:plot-irf-fr-supply-bq}Responses functions on the French economy of a shock on the 3 months Euribor rates, \(R_t\) with a 95\% bootstrap confidence interval in the supply scenario (Blanchard Quah).}
+\end{figure}
+
+\newpage
+
+\appendix
+
+\hypertarget{code}{%
+\section{Code}\label{code}}
+
+\hypertarget{functions}{%
+\subsection{Functions}\label{functions}}
+
+\texttt{Z\ -\ Fonctions.R} file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(ggplot2))\{}
+    \FunctionTok{install.packages}\NormalTok{(ggplot2)}
+    \FunctionTok{require}\NormalTok{(ggplot2)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(forcats))\{}
+    \FunctionTok{install.packages}\NormalTok{(forcats)}
+    \FunctionTok{require}\NormalTok{(forcats)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(ggfortify))\{}
+    \FunctionTok{install.packages}\NormalTok{(forcats)}
+    \FunctionTok{require}\NormalTok{(forcats)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(patchwork))\{}
+    \FunctionTok{install.packages}\NormalTok{(forcats)}
+    \FunctionTok{require}\NormalTok{(forcats)}
+\NormalTok{\}}
+\ControlFlowTok{if}\NormalTok{ (}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(reshape2))\{}
+    \FunctionTok{install.packages}\NormalTok{(reshape2)}
+\NormalTok{\}}
+\NormalTok{plot\_irf }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(oir,}
+                     \AttributeTok{labeller =} \StringTok{"label\_parsed"}\NormalTok{,}
+                     \AttributeTok{recode =} \FunctionTok{c}\NormalTok{(}\StringTok{"Delta\textasciitilde{}y[t]"}\OtherTok{=} \StringTok{"dlGDP"}\NormalTok{,}
+                                \StringTok{"U[t]"} \OtherTok{=} \StringTok{"U"}\NormalTok{,}
+                                \StringTok{"pi[t]\^{}core"}\OtherTok{=}\StringTok{"underinf"}\NormalTok{,}
+                                \StringTok{"pi[t]"}\OtherTok{=}\StringTok{"HICP"}\NormalTok{,}
+                                \StringTok{"R[t]"} \OtherTok{=} \StringTok{"EURIBOR\_3M"}\NormalTok{))\{}
+\NormalTok{    data\_plot }\OtherTok{\textless{}{-}} \FunctionTok{Reduce}\NormalTok{(}\ControlFlowTok{function}\NormalTok{(x,y) }\FunctionTok{merge}\NormalTok{(x,y,}\AttributeTok{by =} \FunctionTok{c}\NormalTok{(}\StringTok{"Var1"}\NormalTok{,}\StringTok{"Var2"}\NormalTok{)),}
+                        \FunctionTok{list}\NormalTok{(reshape2}\SpecialCharTok{::}\FunctionTok{melt}\NormalTok{(oir}\SpecialCharTok{$}\NormalTok{irf}\SpecialCharTok{$}\NormalTok{EURIBOR\_3M),}
+\NormalTok{                             reshape2}\SpecialCharTok{::}\FunctionTok{melt}\NormalTok{(oir}\SpecialCharTok{$}\NormalTok{Lower}\SpecialCharTok{$}\NormalTok{EURIBOR\_3M),}
+\NormalTok{                             reshape2}\SpecialCharTok{::}\FunctionTok{melt}\NormalTok{(oir}\SpecialCharTok{$}\NormalTok{Upper}\SpecialCharTok{$}\NormalTok{EURIBOR\_3M)))}
+\NormalTok{    data\_plot[,}\StringTok{"Var1"}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ data\_plot[,}\StringTok{"Var1"}\NormalTok{] }\SpecialCharTok{{-}}\DecValTok{1}
+    \FunctionTok{colnames}\NormalTok{(data\_plot) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"x"}\NormalTok{,}\StringTok{"variable"}\NormalTok{,}\StringTok{"y"}\NormalTok{,}\StringTok{"lower"}\NormalTok{,}\StringTok{"upper"}\NormalTok{)}
+\NormalTok{    data\_plot}\SpecialCharTok{$}\NormalTok{variable }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{variable,}
+                                 \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"dlGDP"}\NormalTok{, }\StringTok{"U"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{, }\StringTok{"HICP"}\NormalTok{, }\StringTok{"EURIBOR\_3M"}\NormalTok{),}
+                                 \AttributeTok{ordered =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{    data\_plot}\SpecialCharTok{$}\NormalTok{variable }\OtherTok{\textless{}{-}} \FunctionTok{fct\_recode}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{variable, }\SpecialCharTok{!!!}\NormalTok{recode)}
+    \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_plot,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x,}\AttributeTok{y=}\NormalTok{y,}\AttributeTok{ymin=}\NormalTok{lower,}\AttributeTok{ymax=}\NormalTok{upper)) }\SpecialCharTok{+}
+        \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept=}\DecValTok{0}\NormalTok{,}\AttributeTok{color=}\StringTok{"red"}\NormalTok{)}\SpecialCharTok{+}
+        \FunctionTok{geom\_line}\NormalTok{(}\AttributeTok{color =} \StringTok{"darkblue"}\NormalTok{)}\SpecialCharTok{+}
+        \FunctionTok{geom\_ribbon}\NormalTok{(}\AttributeTok{alpha=}\FloatTok{0.1}\NormalTok{) }\SpecialCharTok{+}
+        \FunctionTok{facet\_wrap}\NormalTok{(}\FunctionTok{vars}\NormalTok{(variable),}
+                   \AttributeTok{scales =} \StringTok{"free"}\NormalTok{, }\AttributeTok{nrow =} \DecValTok{2}\NormalTok{, }\AttributeTok{strip.position =} \StringTok{"top"}\NormalTok{,}
+                   \AttributeTok{labeller =}\NormalTok{ labeller)}\SpecialCharTok{+}
+        \FunctionTok{theme\_bw}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{xlab}\NormalTok{(}\StringTok{""}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{""}\NormalTok{)   }
+\NormalTok{\}}
+\NormalTok{plot\_fevd }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(fevd,}
+                      \AttributeTok{labeller =} \StringTok{"label\_parsed"}\NormalTok{,}
+                      \AttributeTok{recode =} \FunctionTok{c}\NormalTok{(}\StringTok{"Delta\textasciitilde{}y[t]"}\OtherTok{=} \StringTok{"dlGDP"}\NormalTok{,}
+                                 \StringTok{"U[t]"} \OtherTok{=} \StringTok{"U"}\NormalTok{,}
+                                 \StringTok{"pi[t]\^{}core"}\OtherTok{=}\StringTok{"underinf"}\NormalTok{,}
+                                 \StringTok{"pi[t]"}\OtherTok{=}\StringTok{"HICP"}\NormalTok{,}
+                                 \StringTok{"R[t]"} \OtherTok{=} \StringTok{"EURIBOR\_3M"}\NormalTok{))\{}
+\NormalTok{    data\_plot }\OtherTok{\textless{}{-}} \FunctionTok{Reduce}\NormalTok{(rbind,}
+                        \FunctionTok{lapply}\NormalTok{(}\FunctionTok{names}\NormalTok{(fevd), }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{                            d }\OtherTok{\textless{}{-}}\NormalTok{ reshape2}\SpecialCharTok{::}\FunctionTok{melt}\NormalTok{(fevd[[x]])}
+\NormalTok{                            d}\SpecialCharTok{$}\NormalTok{var\_comp }\OtherTok{=}\NormalTok{ x}
+\NormalTok{                            d}
+\NormalTok{                        \}))}
+    \FunctionTok{colnames}\NormalTok{(data\_plot) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"horizon"}\NormalTok{,}\StringTok{"variable"}\NormalTok{,}\StringTok{"y"}\NormalTok{,}\StringTok{"decomp"}\NormalTok{)}
+\NormalTok{    data\_plot}\SpecialCharTok{$}\NormalTok{y }\OtherTok{\textless{}{-}} \DecValTok{100} \SpecialCharTok{*}\NormalTok{data\_plot}\SpecialCharTok{$}\NormalTok{y}
+\NormalTok{    data\_plot}\SpecialCharTok{$}\NormalTok{decomp }\OtherTok{\textless{}{-}} \FunctionTok{factor}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{decomp,}
+                                 \AttributeTok{levels =} \FunctionTok{c}\NormalTok{(}\StringTok{"dlGDP"}\NormalTok{, }\StringTok{"U"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{, }\StringTok{"HICP"}\NormalTok{, }\StringTok{"EURIBOR\_3M"}\NormalTok{),}
+                                 \AttributeTok{ordered =} \ConstantTok{TRUE}\NormalTok{)}
+    
+\NormalTok{    data\_plot}\SpecialCharTok{$}\NormalTok{variable }\OtherTok{=} \FunctionTok{fct\_recode}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{variable, }\SpecialCharTok{!!!}\NormalTok{recode)}
+\NormalTok{    data\_plot}\SpecialCharTok{$}\NormalTok{decomp }\OtherTok{=} \FunctionTok{fct\_recode}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{decomp, }\SpecialCharTok{!!!}\NormalTok{recode)}
+    
+    \FunctionTok{ggplot}\NormalTok{(}\AttributeTok{data =}\NormalTok{ data\_plot, }\AttributeTok{mapping =} \FunctionTok{aes}\NormalTok{(}\AttributeTok{x =}\NormalTok{ horizon, }\AttributeTok{y =}\NormalTok{ y,}
+                                           \AttributeTok{fill =}\NormalTok{ variable)) }\SpecialCharTok{+}
+        \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{)}\SpecialCharTok{+}
+        \FunctionTok{facet\_wrap}\NormalTok{(}\FunctionTok{vars}\NormalTok{(decomp),}
+                   \AttributeTok{scales =} \StringTok{"free"}\NormalTok{, }\AttributeTok{strip.position =} \StringTok{"top"}\NormalTok{,}
+                   \AttributeTok{labeller =}\NormalTok{ labeller)}\SpecialCharTok{+}
+        \FunctionTok{theme\_bw}\NormalTok{()}\SpecialCharTok{+}\FunctionTok{xlab}\NormalTok{(}\StringTok{"Horizon"}\NormalTok{) }\SpecialCharTok{+} \FunctionTok{ylab}\NormalTok{(}\StringTok{"Percentage"}\NormalTok{) }\SpecialCharTok{+}
+        \FunctionTok{scale\_fill\_viridis\_d}\NormalTok{(}
+            \AttributeTok{breaks =} \FunctionTok{levels}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{variable),}
+            \AttributeTok{labels =} \FunctionTok{unlist}\NormalTok{(}\FunctionTok{label\_parsed}\NormalTok{(}\FunctionTok{levels}\NormalTok{(data\_plot}\SpecialCharTok{$}\NormalTok{variable))))}
+\NormalTok{\}}
+\NormalTok{plot\_ts }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, x)\{}
+\NormalTok{    rename\_fun }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"dlGDP"}\NormalTok{, }\StringTok{"Delta\textasciitilde{}y[t]"}\NormalTok{ , x)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"underinf"}\NormalTok{, }\StringTok{"pi[t]\^{}\{core\}"}\NormalTok{ , x)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"HICP"}\NormalTok{, }\StringTok{"pi[t]"}\NormalTok{ , x)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"R[t]"}\NormalTok{ , x)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"\^{}U$"}\NormalTok{, }\StringTok{"U[t]"}\NormalTok{ , x)}
+\NormalTok{        x}
+\NormalTok{    \}}
+    \FunctionTok{autoplot}\NormalTok{(data[,x]) }\SpecialCharTok{+} 
+        \FunctionTok{labs}\NormalTok{(}\AttributeTok{title =} \FunctionTok{label\_parsed}\NormalTok{(}\FunctionTok{rename\_fun}\NormalTok{(x))[[}\DecValTok{1}\NormalTok{]][[}\DecValTok{1}\NormalTok{]])}
+\NormalTok{\}}
+\NormalTok{latexify\_var }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(model, }\AttributeTok{nb\_dec =} \DecValTok{1}\NormalTok{, }\AttributeTok{align =} \ConstantTok{FALSE}\NormalTok{,}
+                         \AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{) \{}
+\NormalTok{    rename\_fun }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"dlGDP"}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{Delta y"}\NormalTok{ , x, }\AttributeTok{fixed =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"underinf"}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{pi\^{}\{core\}"}\NormalTok{ , x, }\AttributeTok{fixed =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"HICP"}\NormalTok{, }\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{pi"}\NormalTok{ , x, }\AttributeTok{fixed =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        x }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"R"}\NormalTok{ , x, }\AttributeTok{fixed =} \ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{        x}
+\NormalTok{    \}}
+    \CommentTok{\# rename\_fun = function(x) \{gsub("\_", "\textbackslash{}\textbackslash{}\_", x,fixed = TRUE)\}}
+\NormalTok{    coefficients }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model)}
+\NormalTok{    names\_var }\OtherTok{\textless{}{-}} \FunctionTok{rename\_fun}\NormalTok{(}\FunctionTok{names}\NormalTok{(coefficients))}
+
+\NormalTok{    coef\_mats }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}\FunctionTok{seq\_len}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{p),}\ControlFlowTok{function}\NormalTok{(lag)\{}
+        \FunctionTok{sapply}\NormalTok{(coefficients,}\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{            x[}\FunctionTok{grep}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.l\%i$"}\NormalTok{,lag),}\FunctionTok{rownames}\NormalTok{(x)), }\StringTok{"Estimate"}\NormalTok{]}
+\NormalTok{        \})}
+\NormalTok{    \})}
+    
+\NormalTok{    coef\_mats\_se }\OtherTok{\textless{}{-}} \FunctionTok{lapply}\NormalTok{(}\FunctionTok{seq\_len}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{p),}\ControlFlowTok{function}\NormalTok{(lag)\{}
+        \ControlFlowTok{if}\NormalTok{(se)\{}
+            \FunctionTok{sapply}\NormalTok{(coefficients,}\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{                x[}\FunctionTok{grep}\NormalTok{(}\FunctionTok{sprintf}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{.l\%i$"}\NormalTok{,lag),}\FunctionTok{rownames}\NormalTok{(x)), }\StringTok{"Std. Error"}\NormalTok{]}
+\NormalTok{            \})}
+\NormalTok{        \}}\ControlFlowTok{else}\NormalTok{\{}
+            \ConstantTok{NULL}
+\NormalTok{        \}}
+\NormalTok{    \})}
+\NormalTok{    X\_tex }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{latexify\_const\_trend}\NormalTok{(model, }\AttributeTok{se =}\NormalTok{ se, }\AttributeTok{nb\_dec =}\NormalTok{ nb\_dec),}
+              \FunctionTok{sapply}\NormalTok{(}\FunctionTok{seq\_along}\NormalTok{(coef\_mats), }\ControlFlowTok{function}\NormalTok{(lag)\{}
+                  \FunctionTok{paste}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(coef\_mats[[lag]],}
+                                     \AttributeTok{se\_mat =}\NormalTok{ coef\_mats\_se[[lag]],}
+                                     \AttributeTok{nb\_dec =}\NormalTok{ nb\_dec),}
+                        \FunctionTok{latexify\_y}\NormalTok{(names\_var, }\AttributeTok{lag =}\NormalTok{ lag)  }
+\NormalTok{                  )}
+\NormalTok{              \})) }
+    
+\NormalTok{    Y\_tex }\OtherTok{=} \FunctionTok{latexify\_y}\NormalTok{(names\_var, }\AttributeTok{lag =} \DecValTok{0}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{ (align)\{}
+        \CommentTok{\# Concaténation de la constante}
+\NormalTok{        X\_tex }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\FunctionTok{paste}\NormalTok{(X\_tex[}\DecValTok{1}\NormalTok{], X\_tex[}\DecValTok{2}\NormalTok{], }\AttributeTok{sep =} \StringTok{" + "}\NormalTok{),}
+\NormalTok{                  X\_tex[}\SpecialCharTok{{-}}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)])}
+\NormalTok{        X\_tex }\OtherTok{=} \FunctionTok{paste}\NormalTok{(X\_tex,}
+                      \AttributeTok{collapse =} \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{nonumber }\SpecialCharTok{\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}}\StringTok{ }\SpecialCharTok{\textbackslash{}n}\StringTok{ \&+"}\NormalTok{)}
+\NormalTok{        res }\OtherTok{=} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{begin\{align\} }\SpecialCharTok{\textbackslash{}n}\StringTok{\%s \&= \%s + }\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{varepsilon\_t }\SpecialCharTok{\textbackslash{}n\textbackslash{}\textbackslash{}}\StringTok{end\{align\}"}\NormalTok{,}
+\NormalTok{                      Y\_tex, X\_tex)}
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{        X\_tex }\OtherTok{=} \FunctionTok{paste}\NormalTok{(X\_tex,}
+                      \AttributeTok{collapse =} \StringTok{"+"}\NormalTok{)}
+\NormalTok{        res }\OtherTok{=} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%s = \%s+ }\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{varepsilon\_t}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+\NormalTok{                      Y\_tex, X\_tex)}
+\NormalTok{    \}}
+    \FunctionTok{return}\NormalTok{ (res)}
+\NormalTok{\}}
+
+\NormalTok{latexify\_mat }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(mat, }\AttributeTok{se\_mat =} \ConstantTok{NULL}\NormalTok{, }\AttributeTok{nb\_dec =} \DecValTok{1}\NormalTok{)\{}
+\NormalTok{    mat }\OtherTok{=} \FunctionTok{formatC}\NormalTok{(mat, }\AttributeTok{digits =}\NormalTok{ nb\_dec, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)}
+    \ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{is.null}\NormalTok{(se\_mat))\{}
+\NormalTok{        se\_mat }\OtherTok{=} \FunctionTok{formatC}\NormalTok{(se\_mat, }\AttributeTok{digits =}\NormalTok{ nb\_dec, }\AttributeTok{format =} \StringTok{"f"}\NormalTok{)}
+\NormalTok{        se\_mat }\OtherTok{=} \FunctionTok{apply}\NormalTok{(se\_mat,}\DecValTok{2}\NormalTok{,}
+              \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{paste0}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{underset\{("}\NormalTok{,x,}\StringTok{")\}"}\NormalTok{))}
+\NormalTok{        mat }\OtherTok{=} \FunctionTok{apply}\NormalTok{(mat,}\DecValTok{2}\NormalTok{,}
+                    \ControlFlowTok{function}\NormalTok{(x) }\FunctionTok{paste0}\NormalTok{(}\StringTok{"\{"}\NormalTok{,x,}\StringTok{"\}"}\NormalTok{))}
+\NormalTok{        mat[]}\OtherTok{=} \FunctionTok{paste0}\NormalTok{(se\_mat,mat)}
+\NormalTok{    \}}
+    
+\NormalTok{    mat }\OtherTok{=} \FunctionTok{paste}\NormalTok{(}\FunctionTok{apply}\NormalTok{(mat,}\DecValTok{1}\NormalTok{, paste, }\AttributeTok{collapse =} \StringTok{" \& "}\NormalTok{), }\AttributeTok{collapse =} \StringTok{" }\SpecialCharTok{\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}n}\StringTok{"}\NormalTok{)}
+\NormalTok{    mat }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{begin\{pmatrix\}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,mat,}
+                 \StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}\textbackslash{}}\StringTok{end\{pmatrix\}"}\NormalTok{)}
+\NormalTok{    mat}
+\NormalTok{\}}
+\NormalTok{latexify\_const\_trend }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(model, }\AttributeTok{nb\_dec =} \DecValTok{1}\NormalTok{, }\AttributeTok{se =} \ConstantTok{FALSE}\NormalTok{)\{}
+\NormalTok{    coefficients }\OtherTok{\textless{}{-}} \FunctionTok{coef}\NormalTok{(model)}
+\NormalTok{    const\_trend }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(coefficients,}\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{        x[}\FunctionTok{grep}\NormalTok{(}\StringTok{"(\^{}const$)|(\^{}trend$)"}\NormalTok{,}\FunctionTok{rownames}\NormalTok{(x)), }\StringTok{"Estimate"}\NormalTok{]}
+\NormalTok{    \})) }
+    \ControlFlowTok{if}\NormalTok{(se)\{}
+\NormalTok{        const\_trend\_se }\OtherTok{\textless{}{-}} \FunctionTok{t}\NormalTok{(}\FunctionTok{sapply}\NormalTok{(coefficients,}\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{            x[}\FunctionTok{grep}\NormalTok{(}\StringTok{"(\^{}const$)|(\^{}trend$)"}\NormalTok{,}\FunctionTok{rownames}\NormalTok{(x)), }\StringTok{"Std. Error"}\NormalTok{]}
+\NormalTok{        \}))  }
+\NormalTok{    \}}\ControlFlowTok{else}\NormalTok{\{}
+\NormalTok{        const\_trend\_se }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{    \}}
+    
+    \ControlFlowTok{if}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{type }\SpecialCharTok{==} \StringTok{"both"}\NormalTok{)\{}
+        \CommentTok{\# constante + tendance}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \FunctionTok{latexify\_mat}\NormalTok{(const\_trend,}
+                            \AttributeTok{se\_mat =}\NormalTok{ const\_trend\_se,}
+                            \AttributeTok{nb\_dec =}\NormalTok{ nb\_dec)}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(res,}
+                     \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{begin\{pmatrix\} 1 }\SpecialCharTok{\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}}\StringTok{ t }\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{end\{pmatrix\}"}\NormalTok{)}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{type }\SpecialCharTok{==} \StringTok{"trend"}\NormalTok{)\{}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \FunctionTok{latexify\_mat}\NormalTok{(const\_trend,}
+                            \AttributeTok{se\_mat =}\NormalTok{ const\_trend\_se,}
+                            \AttributeTok{nb\_dec =}\NormalTok{ nb\_dec)}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(res,}
+                     \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{begin\{pmatrix\} 1 }\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{end\{pmatrix\}"}\NormalTok{)}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{type }\SpecialCharTok{==} \StringTok{"const"}\NormalTok{)\{}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \FunctionTok{latexify\_mat}\NormalTok{(const\_trend,}
+                            \AttributeTok{se\_mat =}\NormalTok{ const\_trend\_se,}
+                            \AttributeTok{nb\_dec =}\NormalTok{ nb\_dec)}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \FunctionTok{paste}\NormalTok{(res,}
+                     \StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{begin\{pmatrix\} t  }\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{end\{pmatrix\}"}\NormalTok{)}
+\NormalTok{    \}}
+    \ControlFlowTok{if}\NormalTok{(model}\SpecialCharTok{$}\NormalTok{type }\SpecialCharTok{==} \StringTok{"none"}\NormalTok{)\{}
+\NormalTok{        res }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{    \}}
+\NormalTok{    res}
+\NormalTok{\}}
+\NormalTok{latexify\_y }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(vec, }\AttributeTok{lag =} \DecValTok{0}\NormalTok{)\{}
+\NormalTok{    vec }\OtherTok{=} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%s\_\{t\%s\}"}\NormalTok{,vec,}
+                  \FunctionTok{ifelse}\NormalTok{(lag }\SpecialCharTok{==} \DecValTok{0}\NormalTok{,}\StringTok{""}\NormalTok{,}
+                         \FunctionTok{sprintf}\NormalTok{(}\StringTok{" {-} \%i"}\NormalTok{, lag)))}
+    \FunctionTok{paste}\NormalTok{(}\StringTok{"}\SpecialCharTok{\textbackslash{}\textbackslash{}}\StringTok{begin\{pmatrix\}}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+          \FunctionTok{paste}\NormalTok{(vec,}\AttributeTok{collapse =} \StringTok{" }\SpecialCharTok{\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}\textbackslash{}n}\StringTok{"}\NormalTok{),}
+          \StringTok{"}\SpecialCharTok{\textbackslash{}n\textbackslash{}\textbackslash{}}\StringTok{end\{pmatrix\}"}\NormalTok{)}
+\NormalTok{\}}
+
+
+\CommentTok{\# Téléchargement données depuis BDM}
+\NormalTok{lectureBDM }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(idbank, ...)}
+\NormalTok{\{}
+    \CommentTok{\#On récupère les idbank et on supprime les éventuels espaces}
+\NormalTok{    idbank}\OtherTok{\textless{}{-}}\FunctionTok{gsub}\NormalTok{(}\StringTok{" "}\NormalTok{,}\StringTok{""}\NormalTok{,}\FunctionTok{c}\NormalTok{(idbank,}\FunctionTok{unlist}\NormalTok{(}\FunctionTok{list}\NormalTok{(...))))}
+    
+    \CommentTok{\#Les url pour télécharger le(s) série(s)}
+\NormalTok{    UrlData }\OtherTok{\textless{}{-}} \FunctionTok{paste0}\NormalTok{(}\StringTok{"https://bdm.insee.fr/series/sdmx/data/SERIES\_BDM/"}\NormalTok{,}
+                      \FunctionTok{paste}\NormalTok{(idbank,}\AttributeTok{collapse =} \StringTok{"+"}\NormalTok{))}
+    
+    \FunctionTok{tryCatch}\NormalTok{(\{}
+\NormalTok{        dataBDM }\OtherTok{\textless{}{-}} \FunctionTok{as.data.frame}\NormalTok{(rsdmx}\SpecialCharTok{::}\FunctionTok{readSDMX}\NormalTok{(UrlData,}\AttributeTok{isURL =}\NormalTok{ T),}
+                                 \AttributeTok{stringsAsFactors=}\ConstantTok{TRUE}\NormalTok{)}
+\NormalTok{    \},}\AttributeTok{error=}\ControlFlowTok{function}\NormalTok{(e)\{}
+        \FunctionTok{stop}\NormalTok{(}\FunctionTok{paste0}\NormalTok{(}\StringTok{"Il y a une erreur dans le téléchargement des données. Vérifier le lien}\SpecialCharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+\NormalTok{                    UrlData),}
+             \AttributeTok{call. =} \ConstantTok{FALSE}\NormalTok{)}
+\NormalTok{    \})}
+    
+\NormalTok{    FREQ }\OtherTok{\textless{}{-}} \FunctionTok{levels}\NormalTok{(}\FunctionTok{factor}\NormalTok{(dataBDM}\SpecialCharTok{$}\NormalTok{FREQ))}
+    
+    \ControlFlowTok{if}\NormalTok{ (}\FunctionTok{length}\NormalTok{(FREQ)}\SpecialCharTok{!=}\DecValTok{1}\NormalTok{)}
+        \FunctionTok{stop}\NormalTok{(}\StringTok{"Les séries ne sont pas de la même périodicité !"}\NormalTok{)}
+    
+\NormalTok{    freq}\OtherTok{\textless{}{-}}\ControlFlowTok{switch}\NormalTok{(FREQ}
+\NormalTok{                 ,}\AttributeTok{M=}\DecValTok{12}
+\NormalTok{                 ,}\AttributeTok{B=}\DecValTok{6}
+\NormalTok{                 ,}\AttributeTok{T=}\DecValTok{4}
+\NormalTok{                 ,}\AttributeTok{S=}\DecValTok{2}
+\NormalTok{                 ,}\AttributeTok{A=}\DecValTok{1}\NormalTok{)}
+    \CommentTok{\#On détermine le format de la colonne qui contient les dates en fonction de la fréquence}
+\NormalTok{    sepDate}\OtherTok{\textless{}{-}}\ControlFlowTok{switch}\NormalTok{(FREQ}
+\NormalTok{                    ,}\AttributeTok{M=}\StringTok{"{-}"}
+\NormalTok{                    ,}\AttributeTok{B=}\StringTok{"{-}B"}
+\NormalTok{                    ,}\AttributeTok{T=}\StringTok{"{-}Q"}
+\NormalTok{                    ,}\AttributeTok{S=}\StringTok{"{-}S"}
+\NormalTok{                    ,}\AttributeTok{A=}\StringTok{" "}\NormalTok{)}
+\NormalTok{    dataBDM }\OtherTok{\textless{}{-}}\NormalTok{ reshape2}\SpecialCharTok{::}\FunctionTok{dcast}\NormalTok{(dataBDM,}\StringTok{"TIME\_PERIOD \textasciitilde{} IDBANK"}\NormalTok{,}\AttributeTok{value.var =} \StringTok{"OBS\_VALUE"}\NormalTok{)}
+\NormalTok{    dataBDM }\OtherTok{\textless{}{-}}\NormalTok{ dataBDM[}\FunctionTok{order}\NormalTok{(dataBDM}\SpecialCharTok{$}\NormalTok{TIME\_PERIOD),]}
+    
+    \CommentTok{\#On récupère la première date}
+\NormalTok{    dateDeb }\OtherTok{\textless{}{-}}\NormalTok{ dataBDM}\SpecialCharTok{$}\NormalTok{TIME\_PERIOD[}\DecValTok{1}\NormalTok{]}
+\NormalTok{    dateDeb }\OtherTok{\textless{}{-}} \FunctionTok{regmatches}\NormalTok{(dateDeb,}\FunctionTok{gregexpr}\NormalTok{(sepDate,dateDeb),}\AttributeTok{invert=}\NormalTok{T)[[}\DecValTok{1}\NormalTok{]]}
+\NormalTok{    dateDeb }\OtherTok{\textless{}{-}} \FunctionTok{as.numeric}\NormalTok{(dateDeb)}
+    
+    \CommentTok{\#On supprime la colonne des dates et on convertit les séries en numérique}
+\NormalTok{    dataBDM}\SpecialCharTok{$}\NormalTok{TIME\_PERIOD }\OtherTok{\textless{}{-}} \ConstantTok{NULL}
+\NormalTok{    dataBDM }\OtherTok{\textless{}{-}} \FunctionTok{apply}\NormalTok{(dataBDM,}\DecValTok{2}\NormalTok{,as.numeric)}
+    
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(dataBDM) }\SpecialCharTok{!=} \FunctionTok{length}\NormalTok{(idbank))}
+        \FunctionTok{warning}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\StringTok{"Le ou les idbank suivant n\textquotesingle{}existent pas :"}\NormalTok{,}
+                      \FunctionTok{paste}\NormalTok{(}\FunctionTok{grep}\NormalTok{(}\FunctionTok{paste}\NormalTok{(}\FunctionTok{colnames}\NormalTok{(dataBDM),}\AttributeTok{collapse=}\StringTok{"|"}\NormalTok{),idbank,}\AttributeTok{value=}\NormalTok{T,}\AttributeTok{invert =}\NormalTok{ T),}
+                            \AttributeTok{collapse=}\StringTok{", "}\NormalTok{)))}
+    \ControlFlowTok{if}\NormalTok{(}\FunctionTok{ncol}\NormalTok{(dataBDM) }\SpecialCharTok{\textgreater{}} \DecValTok{1}\NormalTok{)\{}
+        \CommentTok{\# On a au moins 2 colonnes : on replace les colonnes dans le même ordre }
+        \CommentTok{\# que les séries en entrée}
+        
+        \CommentTok{\# On ne garde que les idbank présents dans la base}
+\NormalTok{        idbank }\OtherTok{\textless{}{-}}\NormalTok{ idbank[idbank }\SpecialCharTok{\%in\%} \FunctionTok{colnames}\NormalTok{(dataBDM)]}
+\NormalTok{        dataBDM }\OtherTok{\textless{}{-}}\NormalTok{ dataBDM[,idbank]}
+\NormalTok{    \}}
+\NormalTok{    dataBDM }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(dataBDM,}\AttributeTok{start=}\NormalTok{dateDeb,}\AttributeTok{freq=}\NormalTok{freq)}
+    \FunctionTok{return}\NormalTok{(dataBDM)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{downloading-of-the-data}{%
+\subsection{Downloading of the data}\label{downloading-of-the-data}}
+
+\texttt{1-extraction\_donnees.R} file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(ecb)}
+\FunctionTok{library}\NormalTok{(eurostat)}
+\FunctionTok{library}\NormalTok{(zoo)}
+
+\FunctionTok{source}\NormalTok{(}\StringTok{"R/Z {-} Fonctions.R"}\NormalTok{,}\AttributeTok{encoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\# DATA GATHERING \& CLEANING \#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#  }
+
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\DocumentationTok{\#\#\#\#\#\#\#\#\# DONNEES UE \#\#\#\#\#\#\#\#\#\#\#\#\#}
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\DocumentationTok{\#\#EURIBOR\_3M}
+\NormalTok{euri}\OtherTok{\textless{}{-}}\FunctionTok{get\_eurostat}\NormalTok{(}
+    \StringTok{"irt\_st\_q"}\NormalTok{,}
+    \AttributeTok{time\_format=}\StringTok{"date"}\NormalTok{,}
+    \AttributeTok{filters=}\FunctionTok{list}\NormalTok{(}\AttributeTok{geo=}\StringTok{"EA"}\NormalTok{,}\AttributeTok{int\_rt=}\StringTok{"IRT\_M3"}\NormalTok{)}
+\NormalTok{)}
+\NormalTok{euribor }\OtherTok{\textless{}{-}} \FunctionTok{ts}\NormalTok{(euri}\SpecialCharTok{$}\NormalTok{values,}\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\FunctionTok{substr}\NormalTok{(euri}\SpecialCharTok{$}\NormalTok{time[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{),}\DecValTok{1}\NormalTok{), }\AttributeTok{freq=}\DecValTok{4}\NormalTok{)}
+
+\DocumentationTok{\#\#GDP}
+
+\NormalTok{gdp}\OtherTok{\textless{}{-}}\FunctionTok{get\_eurostat}\NormalTok{(}
+    \StringTok{"namq\_10\_gdp"}\NormalTok{,}
+    \AttributeTok{time\_format=}\StringTok{"date"}\NormalTok{,}
+    \AttributeTok{filters=}\FunctionTok{list}\NormalTok{(}\AttributeTok{geo=}\StringTok{"EA"}\NormalTok{, }\AttributeTok{s\_adj=}\StringTok{"SCA"}\NormalTok{, }\AttributeTok{na\_item=}\StringTok{"B1GQ"}\NormalTok{, }\AttributeTok{unit=}\StringTok{"CLV10\_MEUR"}\NormalTok{)}
+\NormalTok{)  }\CommentTok{\# La série désaisonnalisée n\textquotesingle{}est pas disponible au niveau agrégé}
+\NormalTok{gdp }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(}\FunctionTok{ts}\NormalTok{(gdp}\SpecialCharTok{$}\NormalTok{values,}\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\FunctionTok{substr}\NormalTok{(gdp}\SpecialCharTok{$}\NormalTok{time[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{),}\DecValTok{1}\NormalTok{), }\AttributeTok{freq=}\DecValTok{4}\NormalTok{))}
+\NormalTok{dlgdp }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(gdp)}
+
+
+\DocumentationTok{\#\#unemployment}
+\CommentTok{\# Extraction du taux de chômage harmonisé pour les personnes de 15 à 74 ans,}
+\CommentTok{\# En ne faisant pas de distinction par sexe et en prenant le pourcentage dans la population active}
+\NormalTok{unem}\OtherTok{\textless{}{-}}\FunctionTok{get\_eurostat}\NormalTok{(}
+    \StringTok{"une\_rt\_q"}\NormalTok{,}
+    \AttributeTok{time\_format=}\StringTok{"date"}\NormalTok{,}
+    \AttributeTok{filters=}\FunctionTok{list}\NormalTok{(}\AttributeTok{age =} \StringTok{"Y15{-}74"}\NormalTok{, }\AttributeTok{geo=}\StringTok{"EA19"}\NormalTok{,}\AttributeTok{sex=}\StringTok{"T"}\NormalTok{,}\AttributeTok{s\_adj =} \StringTok{"SA"}\NormalTok{, }\AttributeTok{unit=}\StringTok{"PC\_ACT"}\NormalTok{)}
+\NormalTok{) }
+\NormalTok{unemp}\OtherTok{\textless{}{-}}\FunctionTok{ts}\NormalTok{(unem}\SpecialCharTok{$}\NormalTok{values,}\AttributeTok{start=}\FunctionTok{c}\NormalTok{(}\FunctionTok{substr}\NormalTok{(unem}\SpecialCharTok{$}\NormalTok{time[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{),}\DecValTok{1}\NormalTok{), }\AttributeTok{freq=}\DecValTok{4}\NormalTok{)}
+
+\DocumentationTok{\#\# inflation and underlying inflation (From ECB database)}
+
+\NormalTok{hicp }\OtherTok{\textless{}{-}}\FunctionTok{get\_data}\NormalTok{(}\StringTok{"ICP.M.U2.N.000000.4.INX"}
+\NormalTok{)}
+\NormalTok{hicp}\OtherTok{\textless{}{-}}\FunctionTok{ts}\NormalTok{(hicp}\SpecialCharTok{$}\NormalTok{obsvalue,}
+         \AttributeTok{start=}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{substr}\NormalTok{(hicp}\SpecialCharTok{$}\NormalTok{obstime[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{),}
+                 \FunctionTok{substr}\NormalTok{(hicp}\SpecialCharTok{$}\NormalTok{obstime[}\DecValTok{1}\NormalTok{],}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{))),}
+         \AttributeTok{freq=}\DecValTok{12}\NormalTok{)}
+\NormalTok{hicpq }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(}\FunctionTok{as.zoo}\NormalTok{(hicp), yearqtr, mean)}
+\NormalTok{hicpq }\OtherTok{\textless{}{-}} \FunctionTok{as.ts}\NormalTok{(hicpq)}
+\NormalTok{hicpq }\OtherTok{\textless{}{-}}\NormalTok{ hicpq}\SpecialCharTok{/}\FunctionTok{lag}\NormalTok{(hicpq,}\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{)}\SpecialCharTok{{-}}\DecValTok{1} \CommentTok{\# glissement annuel}
+
+\NormalTok{infex }\OtherTok{\textless{}{-}}\FunctionTok{get\_data}\NormalTok{(}\StringTok{"ICP.M.U2.N.XEF000.4.INX"}
+\NormalTok{)}
+\NormalTok{infex}\OtherTok{\textless{}{-}}\FunctionTok{ts}\NormalTok{(infex}\SpecialCharTok{$}\NormalTok{obsvalue,}
+          \AttributeTok{start=}\FunctionTok{as.numeric}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\FunctionTok{substr}\NormalTok{(infex}\SpecialCharTok{$}\NormalTok{obstime[}\DecValTok{1}\NormalTok{],}\DecValTok{1}\NormalTok{,}\DecValTok{4}\NormalTok{),}
+                             \FunctionTok{substr}\NormalTok{(infex}\SpecialCharTok{$}\NormalTok{obstime[}\DecValTok{1}\NormalTok{],}\DecValTok{6}\NormalTok{,}\DecValTok{7}\NormalTok{))),}
+          \AttributeTok{freq=}\DecValTok{12}\NormalTok{)}
+\NormalTok{infexq }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(}\FunctionTok{as.zoo}\NormalTok{(infex), yearqtr, mean)}
+\NormalTok{infexq }\OtherTok{\textless{}{-}} \FunctionTok{as.ts}\NormalTok{(infexq)}
+\NormalTok{infexq }\OtherTok{\textless{}{-}}\NormalTok{ infexq}\SpecialCharTok{/}\FunctionTok{lag}\NormalTok{(infexq,}\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{)}\SpecialCharTok{{-}}\DecValTok{1} \CommentTok{\# glissement annuel}
+
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{ts.union}\NormalTok{(euribor, dlgdp,gdp, unemp, hicpq, infexq)}
+\FunctionTok{colnames}\NormalTok{(data)}\OtherTok{\textless{}{-}}\FunctionTok{cbind}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"dlGDP"}\NormalTok{,}\StringTok{"lGDP"}\NormalTok{,}
+                      \StringTok{"U"}\NormalTok{,}\StringTok{"HICP"}\NormalTok{,}\StringTok{"underinf"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(data, }\AttributeTok{file=}\StringTok{"data/data\_UE.RDS"}\NormalTok{)}
+
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+\DocumentationTok{\#\#\#\#\#\#\#\#\# DONNEES FR \#\#\#\#\#\#\#\#\#\#\#\#\#}
+\DocumentationTok{\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#}
+
+\CommentTok{\# Indice d\textquotesingle{}inflation sous{-}jacente {-} Base 2015 {-} Ensemble des ménages {-} }
+\CommentTok{\# France métropolitaine {-} Ensemble}
+\NormalTok{infex }\OtherTok{\textless{}{-}} \FunctionTok{lectureBDM}\NormalTok{(}\StringTok{"001769686"}\NormalTok{)}
+\NormalTok{infexq }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(}\FunctionTok{as.zoo}\NormalTok{(infex), yearqtr, mean)}
+\NormalTok{infexq }\OtherTok{\textless{}{-}} \FunctionTok{as.ts}\NormalTok{(infexq)}
+\NormalTok{infexq }\OtherTok{\textless{}{-}}\NormalTok{ infexq}\SpecialCharTok{/}\FunctionTok{lag}\NormalTok{(infexq,}\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{)}\SpecialCharTok{{-}}\DecValTok{1} \CommentTok{\# glissement annuel}
+
+\CommentTok{\# Produit intérieur brut total {-} Volume aux prix de l\textquotesingle{}année précédente chaînés {-} }
+\CommentTok{\# Série CVS{-}CJO aux prix de l\textquotesingle{}année précédente chaînés {-} Série CVS{-}CJO}
+\NormalTok{gdp }\OtherTok{\textless{}{-}} \FunctionTok{log}\NormalTok{(}\FunctionTok{lectureBDM}\NormalTok{(}\StringTok{"010565708"}\NormalTok{))}
+\NormalTok{dlgdp }\OtherTok{\textless{}{-}} \FunctionTok{diff}\NormalTok{(gdp)}
+
+\CommentTok{\# Taux de chômage au sens du BIT {-} Ensemble {-} France métropolitaine {-} }
+\CommentTok{\# Données CVS}
+\NormalTok{unemp }\OtherTok{\textless{}{-}} \FunctionTok{lectureBDM}\NormalTok{(}\StringTok{"001688526"}\NormalTok{)}
+
+\NormalTok{hicp }\OtherTok{\textless{}{-}} \FunctionTok{lectureBDM}\NormalTok{(}\StringTok{"001759971"}\NormalTok{)}
+\NormalTok{hicpq }\OtherTok{\textless{}{-}} \FunctionTok{aggregate}\NormalTok{(}\FunctionTok{as.zoo}\NormalTok{(hicp), yearqtr, mean)}
+\NormalTok{hicpq }\OtherTok{\textless{}{-}} \FunctionTok{as.ts}\NormalTok{(hicpq)}
+\NormalTok{hicpq }\OtherTok{\textless{}{-}}\NormalTok{ hicpq}\SpecialCharTok{/}\FunctionTok{lag}\NormalTok{(hicpq,}\SpecialCharTok{{-}}\DecValTok{4}\NormalTok{)}\SpecialCharTok{{-}}\DecValTok{1} \CommentTok{\# glissement annuel}
+
+\NormalTok{data }\OtherTok{\textless{}{-}} \FunctionTok{ts.union}\NormalTok{(euribor, dlgdp,gdp, unemp, hicpq, infexq)}
+\FunctionTok{colnames}\NormalTok{(data)}\OtherTok{\textless{}{-}}\FunctionTok{cbind}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"dlGDP"}\NormalTok{,}\StringTok{"lGDP"}\NormalTok{,}
+                      \StringTok{"U"}\NormalTok{,}\StringTok{"HICP"}\NormalTok{,}\StringTok{"underinf"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(data, }\AttributeTok{file=}\StringTok{"data/data\_FR.RDS"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{estimation-of-the-models}{%
+\subsection{Estimation of the models}\label{estimation-of-the-models}}
+
+\hypertarget{european-area}{%
+\subsubsection{European area}\label{european-area}}
+
+\texttt{2.1-estimation\_modeles\ EA.R} file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(vars)}
+
+\FunctionTok{source}\NormalTok{(}\StringTok{"R/Z {-} Fonctions.R"}\NormalTok{,}\AttributeTok{encoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+
+\NormalTok{dataUE }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"data/data\_UE.RDS"}\NormalTok{)}
+\NormalTok{dataUE }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(dataUE[,}\FunctionTok{c}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"lGDP"}\NormalTok{,}\StringTok{"dlGDP"}\NormalTok{,}
+                            \StringTok{"U"}\NormalTok{, }\StringTok{"HICP"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{)])}
+\NormalTok{dataUE }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(dataUE, }\AttributeTok{end =} \FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{,}\DecValTok{4}\NormalTok{))}
+
+\NormalTok{p }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{plot\_ts}\NormalTok{(dataUE, }\StringTok{"EURIBOR\_3M"}\NormalTok{) }\SpecialCharTok{+}
+          \FunctionTok{plot\_ts}\NormalTok{(dataUE, }\StringTok{"dlGDP"}\NormalTok{))}\SpecialCharTok{/}\NormalTok{(}
+              \FunctionTok{plot\_ts}\NormalTok{(dataUE, }\StringTok{"U"}\NormalTok{) }\SpecialCharTok{+} 
+                  \FunctionTok{plot\_ts}\NormalTok{(dataUE, }\StringTok{"HICP"}\NormalTok{) }\SpecialCharTok{+} 
+                  \FunctionTok{plot\_ts}\NormalTok{(dataUE, }\StringTok{"underinf"}\NormalTok{)}
+\NormalTok{              )}
+\NormalTok{(p }\SpecialCharTok{\&} \FunctionTok{theme\_minimal}\NormalTok{() )}\SpecialCharTok{+} 
+    \FunctionTok{plot\_annotation}\NormalTok{(}\AttributeTok{title =} \StringTok{\textquotesingle{}European Area\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{var\_ordering1 }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"dlGDP"}\NormalTok{,}
+                 \StringTok{"U"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{,}\StringTok{"HICP"}\NormalTok{, }\StringTok{"EURIBOR\_3M"}\NormalTok{)}
+\NormalTok{var\_ordering2 }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"dlGDP"}\NormalTok{,}
+                 \StringTok{"U"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{,}\StringTok{"HICP"}\NormalTok{)}
+
+\CommentTok{\#Select AIC{-}suggested lag}
+\NormalTok{lagselect }\OtherTok{\textless{}{-}}\FunctionTok{VARselect}\NormalTok{(dataUE[,var\_ordering1],}
+                      \AttributeTok{lag.max=}\DecValTok{6}\NormalTok{,}\AttributeTok{type=}\StringTok{"const"}\NormalTok{)}
+\CommentTok{\# Le critère de Schwartz suggère de ne retenir qu\textquotesingle{}un lag}
+\NormalTok{lagselect}
+\NormalTok{p\_retenu }\OtherTok{=} \DecValTok{1}
+
+\CommentTok{\# L\textquotesingle{}ordre des variables n\textquotesingle{}aura pas d\textquotesingle{}impact sur les analyses du VAR}
+\CommentTok{\# mais uniquement dans la spécification du sVAR}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{VAR}\NormalTok{(dataUE[,var\_ordering1],}
+           \AttributeTok{p =}\NormalTok{ p\_retenu,}\AttributeTok{type =} \StringTok{"both"}\NormalTok{)}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{VAR}\NormalTok{(dataUE[,var\_ordering2],}
+             \AttributeTok{p =}\NormalTok{ p\_retenu,}\AttributeTok{type =} \StringTok{"both"}\NormalTok{)}
+\CommentTok{\# Pas d\textquotesingle{}autocorrélation dans les résidus}
+\FunctionTok{serial.test}\NormalTok{(model)}
+
+\CommentTok{\# Pas d\textquotesingle{}hétéroscédasticité dans les résidus}
+\FunctionTok{arch.test}\NormalTok{(model)}
+\CommentTok{\# Ni de problème de stabilité dans les coefficients}
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{stability}\NormalTok{(model))}
+
+\CommentTok{\# Pour récupérer le code latex du VAR :}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_var}\NormalTok{(model,}\AttributeTok{align =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{nb\_dec =} \DecValTok{2}\NormalTok{, }\AttributeTok{se=}\ConstantTok{TRUE}\NormalTok{))}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(}\FunctionTok{cor}\NormalTok{(}\FunctionTok{residuals}\NormalTok{(model)), }\AttributeTok{nb\_dec =} \DecValTok{2}\NormalTok{))}
+
+\NormalTok{Bmat\_chol }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\AttributeTok{nrow =} \DecValTok{5}\NormalTok{)}
+\NormalTok{Bmat\_chol[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat\_chol[}\DecValTok{3}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    Bmat\_chol[}\DecValTok{4}\NormalTok{,(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat\_chol[}\DecValTok{5}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} 
+    \FunctionTok{diag}\NormalTok{(Bmat\_chol) }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{Bmat\_chol }\CommentTok{\# Choleski}
+
+\NormalTok{Bmat }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\AttributeTok{nrow =} \DecValTok{5}\NormalTok{)}
+\NormalTok{Bmat[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat[}\DecValTok{3}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)] }\OtherTok{\textless{}{-}} 
+\NormalTok{    Bmat[}\DecValTok{4}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{)] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat[}\DecValTok{5}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} 
+    \FunctionTok{diag}\NormalTok{(Bmat) }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{Bmat }\CommentTok{\# affiné}
+
+\NormalTok{Bmat2 }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\AttributeTok{nrow =} \DecValTok{5}\NormalTok{)}
+\NormalTok{Bmat2[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat2[}\DecValTok{3}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)] }\OtherTok{\textless{}{-}} 
+\NormalTok{    Bmat2[}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} 
+    \FunctionTok{diag}\NormalTok{(Bmat2) }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{Bmat2 }\CommentTok{\# affiné}
+
+\NormalTok{smodel1\_chol }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model,}\AttributeTok{Bmat =}\NormalTok{ Bmat\_chol)}
+\NormalTok{smodel1 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model,}\AttributeTok{Bmat =}\NormalTok{ Bmat) }
+\NormalTok{smodel1\_chol}\SpecialCharTok{$}\NormalTok{B }\CommentTok{\# coefficients imposés à 0 proches de 0}
+\NormalTok{smodel1}\SpecialCharTok{$}\NormalTok{B}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(smodel1}\SpecialCharTok{$}\NormalTok{B, }\AttributeTok{nb\_dec =} \DecValTok{3}\NormalTok{))}
+
+\NormalTok{smodel2 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model2,}\AttributeTok{Bmat =}\NormalTok{ Bmat\_chol)}
+\NormalTok{smodel2}
+\CommentTok{\# les coefficients que l\textquotesingle{}on va imposer à 0 sont estimés à 0}
+\CommentTok{\# en utilisant la décomposition de choleski}
+\CommentTok{\# Les mêmes résultats sont donc trouvés entre les deux méthodes}
+\NormalTok{smodel2 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model2,}\AttributeTok{Bmat =}\NormalTok{ Bmat2)}
+\NormalTok{smodel2}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(smodel2}\SpecialCharTok{$}\NormalTok{B, }\AttributeTok{nb\_dec =} \DecValTok{3}\NormalTok{))}
+
+
+\NormalTok{smodel1\_bq }\OtherTok{\textless{}{-}} \FunctionTok{BQ}\NormalTok{(model)}
+\NormalTok{smodel2\_bq }\OtherTok{\textless{}{-}} \FunctionTok{BQ}\NormalTok{(model2)}
+\NormalTok{irf\_1 }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel1, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+           \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\NormalTok{irf\_1\_chol }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel1\_chol, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+             \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\NormalTok{irf\_1\_bq }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel1\_bq, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+                  \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{irf\_2 }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel2, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+             \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\NormalTok{irf\_2\_bq }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel2\_bq, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+                \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+
+\FunctionTok{plot\_irf}\NormalTok{(irf\_1\_chol) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Choleski {-} supply"}\NormalTok{) }
+\FunctionTok{plot\_irf}\NormalTok{(irf\_1) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Matrice affinée {-} supply"}\NormalTok{) }\CommentTok{\# Quasiment même résultat}
+
+\FunctionTok{plot\_irf}\NormalTok{(irf\_1\_bq) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Blanchard Quah decomposition {-} supply"}\NormalTok{) }
+
+\FunctionTok{plot\_irf}\NormalTok{(irf\_2) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Matrice affinée {-} demand"}\NormalTok{)}
+\FunctionTok{plot\_irf}\NormalTok{(irf\_2\_bq) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Blanchard Quah decomposition {-} demand"}\NormalTok{)}
+
+\CommentTok{\# decomposition de la variance}
+\NormalTok{fevd }\OtherTok{\textless{}{-}} \FunctionTok{fevd}\NormalTok{(smodel1, }\AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\FunctionTok{plot\_fevd}\NormalTok{(fevd)}
+
+
+\FunctionTok{saveRDS}\NormalTok{(model, }\StringTok{"data/models\_EA/var\_model.RDS"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_1, }\StringTok{"data/models\_EA/irf\_1"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_1\_chol, }\StringTok{"data/models\_EA/irf\_1\_chol"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_1\_bq, }\StringTok{"data/models\_EA/irf\_1\_bq"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_2, }\StringTok{"data/models\_EA/irf\_2"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_2\_bq, }\StringTok{"data/models\_EA/irf\_2\_bq"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{france}{%
+\subsubsection{France}\label{france}}
+
+\texttt{2.2-estimation\_modeles\ FR.R} file.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(vars)}
+
+\FunctionTok{source}\NormalTok{(}\StringTok{"R/Z {-} Fonctions.R"}\NormalTok{,}\AttributeTok{encoding =} \StringTok{"UTF{-}8"}\NormalTok{)}
+
+\NormalTok{dataFR }\OtherTok{\textless{}{-}} \FunctionTok{readRDS}\NormalTok{(}\StringTok{"data/data\_FR.RDS"}\NormalTok{)}
+\NormalTok{dataFR }\OtherTok{\textless{}{-}} \FunctionTok{na.omit}\NormalTok{(dataFR[,}\FunctionTok{c}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"lGDP"}\NormalTok{,}\StringTok{"dlGDP"}\NormalTok{,}
+                            \StringTok{"U"}\NormalTok{, }\StringTok{"HICP"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{)])}
+\NormalTok{dataFR }\OtherTok{\textless{}{-}} \FunctionTok{window}\NormalTok{(dataFR, }\AttributeTok{end =} \FunctionTok{c}\NormalTok{(}\DecValTok{2018}\NormalTok{,}\DecValTok{4}\NormalTok{))}
+
+\NormalTok{p }\OtherTok{\textless{}{-}}\NormalTok{ (}\FunctionTok{plot\_ts}\NormalTok{(dataFR, }\StringTok{"EURIBOR\_3M"}\NormalTok{) }\SpecialCharTok{+}
+          \FunctionTok{plot\_ts}\NormalTok{(dataFR, }\StringTok{"dlGDP"}\NormalTok{))}\SpecialCharTok{/}\NormalTok{(}
+              \FunctionTok{plot\_ts}\NormalTok{(dataFR, }\StringTok{"U"}\NormalTok{) }\SpecialCharTok{+} 
+                  \FunctionTok{plot\_ts}\NormalTok{(dataFR, }\StringTok{"HICP"}\NormalTok{) }\SpecialCharTok{+} 
+                  \FunctionTok{plot\_ts}\NormalTok{(dataFR, }\StringTok{"underinf"}\NormalTok{)}
+\NormalTok{              )}
+\NormalTok{(p }\SpecialCharTok{\&} \FunctionTok{theme\_minimal}\NormalTok{() )}\SpecialCharTok{+} 
+    \FunctionTok{plot\_annotation}\NormalTok{(}\AttributeTok{title =} \StringTok{\textquotesingle{}France\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{var\_ordering1 }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"dlGDP"}\NormalTok{,}
+                 \StringTok{"U"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{,}\StringTok{"HICP"}\NormalTok{, }\StringTok{"EURIBOR\_3M"}\NormalTok{)}
+\NormalTok{var\_ordering2 }\OtherTok{=} \FunctionTok{c}\NormalTok{(}\StringTok{"EURIBOR\_3M"}\NormalTok{, }\StringTok{"dlGDP"}\NormalTok{,}
+                 \StringTok{"U"}\NormalTok{, }\StringTok{"underinf"}\NormalTok{,}\StringTok{"HICP"}\NormalTok{)}
+
+\CommentTok{\#Select AIC{-}suggested lag}
+\NormalTok{lagselect }\OtherTok{\textless{}{-}}\FunctionTok{VARselect}\NormalTok{(dataFR[,var\_ordering1],}
+                      \AttributeTok{lag.max=}\DecValTok{6}\NormalTok{,}\AttributeTok{type=}\StringTok{"const"}\NormalTok{)}
+\CommentTok{\# Le critère du BIC indique 1 lag}
+\NormalTok{lagselect}
+\NormalTok{p\_retenu }\OtherTok{=} \DecValTok{1}
+
+\CommentTok{\# L\textquotesingle{}ordre des variables n\textquotesingle{}aura pas d\textquotesingle{}impact sur les analyses du VAR}
+\CommentTok{\# mais uniquement dans la spécification du sVAR}
+\NormalTok{model }\OtherTok{\textless{}{-}} \FunctionTok{VAR}\NormalTok{(dataFR[,var\_ordering1],}
+           \AttributeTok{p =}\NormalTok{ p\_retenu,}\AttributeTok{type =} \StringTok{"both"}\NormalTok{)}
+\NormalTok{model2 }\OtherTok{\textless{}{-}} \FunctionTok{VAR}\NormalTok{(dataFR[,var\_ordering2],}
+             \AttributeTok{p =}\NormalTok{ p\_retenu,}\AttributeTok{type =} \StringTok{"both"}\NormalTok{)}
+\CommentTok{\# Pas d\textquotesingle{}autocorrélation dans les résidus}
+\FunctionTok{serial.test}\NormalTok{(model)}
+
+\CommentTok{\# Pas d\textquotesingle{}hétéroscédasticité dans les résidus}
+\FunctionTok{arch.test}\NormalTok{(model)}
+\CommentTok{\# Ni de problème de stabilité dans les coefficients}
+\FunctionTok{plot}\NormalTok{(}\FunctionTok{stability}\NormalTok{(model))}
+
+\CommentTok{\# Pour récupérer le code latex du VAR :}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_var}\NormalTok{(model,}\AttributeTok{align =} \ConstantTok{FALSE}\NormalTok{, }\AttributeTok{nb\_dec =} \DecValTok{2}\NormalTok{, }\AttributeTok{se =} \ConstantTok{TRUE}\NormalTok{))}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(}\FunctionTok{cor}\NormalTok{(}\FunctionTok{residuals}\NormalTok{(model)), }\AttributeTok{nb\_dec =} \DecValTok{2}\NormalTok{))}
+
+
+\NormalTok{Bmat\_chol }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\AttributeTok{nrow =} \DecValTok{5}\NormalTok{)}
+\NormalTok{Bmat\_chol[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat\_chol[}\DecValTok{3}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{] }\OtherTok{\textless{}{-}} 
+\NormalTok{    Bmat\_chol[}\DecValTok{4}\NormalTok{,(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{3}\NormalTok{)] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat\_chol[}\DecValTok{5}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} 
+    \FunctionTok{diag}\NormalTok{(Bmat\_chol) }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{Bmat\_chol }\CommentTok{\# Choleski}
+
+\NormalTok{Bmat }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\AttributeTok{nrow =} \DecValTok{5}\NormalTok{)}
+\NormalTok{Bmat[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat[}\DecValTok{3}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{)] }\OtherTok{\textless{}{-}} 
+\NormalTok{    Bmat[}\DecValTok{4}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{)] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat[}\DecValTok{5}\NormalTok{,}\DecValTok{1}\SpecialCharTok{:}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} 
+    \FunctionTok{diag}\NormalTok{(Bmat) }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{Bmat }\CommentTok{\# affiné}
+
+\NormalTok{Bmat2 }\OtherTok{\textless{}{-}} \FunctionTok{diag}\NormalTok{(}\AttributeTok{nrow =} \DecValTok{5}\NormalTok{)}
+\NormalTok{Bmat2[}\DecValTok{2}\NormalTok{,}\DecValTok{1}\NormalTok{] }\OtherTok{\textless{}{-}}\NormalTok{ Bmat2[}\DecValTok{3}\NormalTok{,}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\SpecialCharTok{:}\DecValTok{2}\NormalTok{)] }\OtherTok{\textless{}{-}} 
+\NormalTok{    Bmat2[}\DecValTok{5}\NormalTok{,}\DecValTok{4}\NormalTok{] }\OtherTok{\textless{}{-}} 
+    \FunctionTok{diag}\NormalTok{(Bmat2) }\OtherTok{\textless{}{-}} \ConstantTok{NA}
+\NormalTok{Bmat2 }\CommentTok{\# affiné}
+
+\NormalTok{smodel1\_chol }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model,}\AttributeTok{Bmat =}\NormalTok{ Bmat\_chol)}
+\NormalTok{smodel1 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model,}\AttributeTok{Bmat =}\NormalTok{ Bmat) }
+\NormalTok{smodel1\_chol}\SpecialCharTok{$}\NormalTok{B }\CommentTok{\# coefficients imposés à 0 proches de 0}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(smodel1}\SpecialCharTok{$}\NormalTok{B, }\AttributeTok{nb\_dec =} \DecValTok{3}\NormalTok{))}
+
+\NormalTok{smodel2 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model2,}\AttributeTok{Bmat =}\NormalTok{ Bmat\_chol)}
+\NormalTok{smodel2 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model2,}\AttributeTok{Bmat =}\NormalTok{ Bmat\_chol)}
+\NormalTok{smodel2}
+\CommentTok{\# les coefficients que l\textquotesingle{}on va imposer à 0 sont estimés à 0}
+\CommentTok{\# en utilisant la décomposition de choleski}
+\CommentTok{\# Les mêmes résultats sont donc trouvés entre les deux méthodes}
+\NormalTok{smodel2 }\OtherTok{\textless{}{-}} \FunctionTok{SVAR}\NormalTok{(model2,}\AttributeTok{Bmat =}\NormalTok{ Bmat2)}
+\NormalTok{smodel2}
+\FunctionTok{cat}\NormalTok{(}\FunctionTok{latexify\_mat}\NormalTok{(smodel2}\SpecialCharTok{$}\NormalTok{B, }\AttributeTok{nb\_dec =} \DecValTok{3}\NormalTok{))}
+
+\NormalTok{smodel1\_bq }\OtherTok{\textless{}{-}} \FunctionTok{BQ}\NormalTok{(model)}
+\NormalTok{smodel2\_bq }\OtherTok{\textless{}{-}} \FunctionTok{BQ}\NormalTok{(model2)}
+\NormalTok{irf\_1 }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel1, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+           \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\NormalTok{irf\_1\_chol }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel1\_chol, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+             \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\NormalTok{irf\_1\_bq }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel1\_bq, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+                  \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+
+\NormalTok{irf\_2 }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel2, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+             \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\NormalTok{irf\_2\_bq }\OtherTok{\textless{}{-}} \FunctionTok{irf}\NormalTok{(smodel2\_bq, }\AttributeTok{impulse =} \StringTok{"EURIBOR\_3M"}\NormalTok{,}
+                \AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+
+\FunctionTok{plot\_irf}\NormalTok{(irf\_1\_chol) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Choleski {-} supply"}\NormalTok{) }
+\FunctionTok{plot\_irf}\NormalTok{(irf\_1) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Matrice affinée {-} supply"}\NormalTok{) }\CommentTok{\# Quasiment même résultat}
+
+\FunctionTok{plot\_irf}\NormalTok{(irf\_1\_bq) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Blanchard Quah decomposition {-} supply"}\NormalTok{) }
+
+\FunctionTok{plot\_irf}\NormalTok{(irf\_2) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Matrice affinée {-} demand"}\NormalTok{)}
+\FunctionTok{plot\_irf}\NormalTok{(irf\_2\_bq) }\SpecialCharTok{+} \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Blanchard Quah decomposition {-} demand"}\NormalTok{)}
+
+\CommentTok{\# decomposition de la variance}
+\NormalTok{fevd }\OtherTok{\textless{}{-}} \FunctionTok{fevd}\NormalTok{(smodel1, }\AttributeTok{n.ahead =} \DecValTok{20}\NormalTok{)}
+\FunctionTok{plot\_fevd}\NormalTok{(fevd)}
+
+
+\FunctionTok{saveRDS}\NormalTok{(model, }\StringTok{"data/models\_FR/var\_model.RDS"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_1, }\StringTok{"data/models\_FR/irf\_1"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_1\_chol, }\StringTok{"data/models\_FR/irf\_1\_chol"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_1\_bq, }\StringTok{"data/models\_FR/irf\_1\_bq"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_2, }\StringTok{"data/models\_FR/irf\_2"}\NormalTok{)}
+\FunctionTok{saveRDS}\NormalTok{(irf\_2\_bq, }\StringTok{"data/models\_FR/irf\_2\_bq"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
