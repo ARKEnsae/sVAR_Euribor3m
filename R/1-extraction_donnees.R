@@ -38,7 +38,7 @@ unem<-get_eurostat(
 ) 
 unemp<-ts(unem$values,start=c(substr(unem$time[1],1,4),1), freq=4)
 
-##inflation and underlying inflation (From ECB database)
+## inflation and underlying inflation (From ECB database)
 
 hicp <-get_data("ICP.M.U2.N.000000.4.INX"
 )
@@ -69,17 +69,20 @@ saveRDS(data, file="data/data_UE.RDS")
 ######### DONNEES FR #############
 ##################################
 
-# Indice d'inflation sous-jacente - Base 2015 - Ensemble des ménages - France métropolitaine - Ensemble
+# Indice d'inflation sous-jacente - Base 2015 - Ensemble des ménages - 
+# France métropolitaine - Ensemble
 infex <- lectureBDM("001769686")
 infexq <- aggregate(as.zoo(infex), yearqtr, mean)
 infexq <- as.ts(infexq)
 infexq <- infexq/lag(infexq,-4)-1 # glissement annuel
 
-# Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - Série CVS-CJO aux prix de l'année précédente chaînés - Série CVS-CJO
+# Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - 
+# Série CVS-CJO aux prix de l'année précédente chaînés - Série CVS-CJO
 gdp <- log(lectureBDM("010565708"))
 dlgdp <- diff(gdp)
 
-#Taux de chômage au sens du BIT - Ensemble - France métropolitaine - Données CVS
+# Taux de chômage au sens du BIT - Ensemble - France métropolitaine - 
+# Données CVS
 unemp <- lectureBDM("001688526")
 
 hicp <- lectureBDM("001759971")

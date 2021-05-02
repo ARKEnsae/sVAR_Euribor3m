@@ -41,7 +41,7 @@ plot_irf <- function(oir,
         facet_wrap(vars(variable),
                    scales = "free", nrow = 2, strip.position = "top",
                    labeller = labeller)+
-        theme_bw()+xlab("") + ylab("IRF")   
+        theme_bw()+xlab("") + ylab("")   
 }
 plot_fevd <- function(fevd,
                       labeller = "label_parsed",
@@ -88,12 +88,13 @@ plot_ts <- function(data, x){
     autoplot(data[,x]) + 
         labs(title = label_parsed(rename_fun(x))[[1]][[1]])
 }
-latexify_var <- function(model, nb_dec = 1, align = FALSE) {
+latexify_var <- function(model, nb_dec = 1, align = FALSE,
+                         se = FALSE) {
     rename_fun <- function(x){
-        x <- sub("dlGDP", "\\Delta y" , x,fixed = TRUE)
-        x <- sub("underinf", "\\pi^{core}" , x,fixed = TRUE)
-        x <- sub("HICP", "\\pi" , x,fixed = TRUE)
-        x <- sub("EURIBOR_3M", "R" , x,fixed = TRUE)
+        x <- sub("dlGDP", "\\Delta y" , x, fixed = TRUE)
+        x <- sub("underinf", "\\pi^{core}" , x, fixed = TRUE)
+        x <- sub("HICP", "\\pi" , x, fixed = TRUE)
+        x <- sub("EURIBOR_3M", "R" , x, fixed = TRUE)
         x
     }
     # rename_fun = function(x) {gsub("_", "\\_", x,fixed = TRUE)}
@@ -106,53 +107,90 @@ latexify_var <- function(model, nb_dec = 1, align = FALSE) {
         })
     })
     
-    X_tex = c(latexify_const_trend(model, nb_dec = nb_dec),
+    coef_mats_se <- lapply(seq_len(model$p),function(lag){
+        if(se){
+            sapply(coefficients,function(x){
+                x[grep(sprintf("\\.l%i$",lag),rownames(x)), "Std. Error"]
+            })
+        }else{
+            NULL
+        }
+    })
+    X_tex = c(latexify_const_trend(model, se = se, nb_dec = nb_dec),
               sapply(seq_along(coef_mats), function(lag){
-                  paste(latexify_mat(coef_mats[[lag]], nb_dec = nb_dec),
+                  paste(latexify_mat(coef_mats[[lag]],
+                                     se_mat = coef_mats_se[[lag]],
+                                     nb_dec = nb_dec),
                         latexify_y(names_var, lag = lag)  
                   )
-              }))
+              })) 
+    
     Y_tex = latexify_y(names_var, lag = 0)
     if (align){
+        # Concaténation de la constante
+        X_tex = c(paste(X_tex[1], X_tex[2], sep = " + "),
+                  X_tex[-(1:2)])
         X_tex = paste(X_tex,
                       collapse = "\\nonumber \\\\ \n &+")
         res = sprintf("\\begin{align} \n%s &= %s + \\varepsilon_t \n\\end{align}",
                       Y_tex, X_tex)
-        
     }else{
         X_tex = paste(X_tex,
                       collapse = "+")
-        res = sprintf("$$\n %s = %s+ \\varepsilon_t\n$$",
+        res = sprintf("%s = %s+ \\varepsilon_t\n",
                       Y_tex, X_tex)
     }
     return (res)
 }
 
-latexify_mat <- function(mat, nb_dec = 1){
+latexify_mat <- function(mat, se_mat = NULL, nb_dec = 1){
     mat = formatC(mat, digits = nb_dec, format = "f")
+    if(!is.null(se_mat)){
+        se_mat = formatC(se_mat, digits = nb_dec, format = "f")
+        se_mat = apply(se_mat,2,
+              function(x) paste0("\\underset{(",x,")}"))
+        mat = apply(mat,2,
+                    function(x) paste0("{",x,"}"))
+        mat[]= paste0(se_mat,mat)
+    }
+    
     mat = paste(apply(mat,1, paste, collapse = " & "), collapse = " \\\\\n")
     mat <- paste("\\begin{pmatrix}\n",mat,
                  "\n\\end{pmatrix}")
     mat
 }
-latexify_const_trend <- function(model, nb_dec = 1){
+latexify_const_trend <- function(model, nb_dec = 1, se = FALSE){
     coefficients <- coef(model)
     const_trend <- t(sapply(coefficients,function(x){
         x[grep("(^const$)|(^trend$)",rownames(x)), "Estimate"]
     })) 
+    if(se){
+        const_trend_se <- t(sapply(coefficients,function(x){
+            x[grep("(^const$)|(^trend$)",rownames(x)), "Std. Error"]
+        }))  
+    }else{
+        const_trend_se <- NULL
+    }
+    
     if(model$type == "both"){
         # constante + tendance
-        res <- latexify_mat(const_trend, nb_dec = nb_dec)
+        res <- latexify_mat(const_trend,
+                            se_mat = const_trend_se,
+                            nb_dec = nb_dec)
         res <- paste(res,
                      "\\begin{pmatrix} 1 \\\\ t \\end{pmatrix}")
     }
     if(model$type == "trend"){
-        res <- latexify_mat(const_trend, nb_dec = nb_dec)
+        res <- latexify_mat(const_trend,
+                            se_mat = const_trend_se,
+                            nb_dec = nb_dec)
         res <- paste(res,
                      "\\begin{pmatrix} 1 \\end{pmatrix}")
     }
     if(model$type == "const"){
-        res <- latexify_mat(const_trend, nb_dec = nb_dec)
+        res <- latexify_mat(const_trend,
+                            se_mat = const_trend_se,
+                            nb_dec = nb_dec)
         res <- paste(res,
                      "\\begin{pmatrix} t  \\end{pmatrix}")
     }
@@ -171,21 +209,22 @@ latexify_y <- function(vec, lag = 0){
 }
 
 
-# Personnellement je préfère l'utilisation de cette fonction "maison"
-# où je fais automatiquement la transformation en ts()
+# Téléchargement données depuis BDM
 lectureBDM <- function(idbank, ...)
 {
     #On récupère les idbank et on supprime les éventuels espaces
     idbank<-gsub(" ","",c(idbank,unlist(list(...))))
     
     #Les url pour télécharger le(s) série(s)
-    UrlData <- paste0("https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/",paste(idbank,collapse = "+"))
+    UrlData <- paste0("https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/",
+                      paste(idbank,collapse = "+"))
     
     tryCatch({
         dataBDM <- as.data.frame(rsdmx::readSDMX(UrlData,isURL = T),
                                  stringsAsFactors=TRUE)
     },error=function(e){
-        stop(paste0("Il y a une erreur dans le téléchargement des données. Vérifier le lien\n",UrlData),
+        stop(paste0("Il y a une erreur dans le téléchargement des données. Vérifier le lien\n",
+                    UrlData),
              call. = FALSE)
     })
     
@@ -224,8 +263,11 @@ lectureBDM <- function(idbank, ...)
                       paste(grep(paste(colnames(dataBDM),collapse="|"),idbank,value=T,invert = T),
                             collapse=", ")))
     if(ncol(dataBDM) > 1){
-        # On a au moins 2 colonnes : on replace les colonnes dans le même ordre que les séries en entrée
-        idbank <- idbank[idbank %in% colnames(dataBDM)] #On ne garde que les idbank présents dans la base
+        # On a au moins 2 colonnes : on replace les colonnes dans le même ordre 
+        # que les séries en entrée
+        
+        # On ne garde que les idbank présents dans la base
+        idbank <- idbank[idbank %in% colnames(dataBDM)]
         dataBDM <- dataBDM[,idbank]
     }
     dataBDM <- ts(dataBDM,start=dateDeb,freq=freq)

@@ -1,14 +1,4 @@
-#load packages
-
-# library(ecb)
-# library(eurostat)
-# library(urca)
 library(vars)
-# library(mFilter)
-# library(tseries)
-# library(TSstudio)
-# library(forecast)
-# library(tidyverse)
 
 source("R/Z - Fonctions.R",encoding = "UTF-8")
 
@@ -24,23 +14,19 @@ p <- (plot_ts(dataUE, "EURIBOR_3M") +
                   plot_ts(dataUE, "underinf")
               )
 (p & theme_minimal() )+ 
-    plot_annotation(title = 'European Aera')
+    plot_annotation(title = 'European Area')
 
 var_ordering1 = c("dlGDP",
                  "U", "underinf","HICP", "EURIBOR_3M")
 var_ordering2 = c("EURIBOR_3M", "dlGDP",
                  "U", "underinf","HICP")
-# var_retained = c("lGDP_detrend",# "lfbcf",
-#                  "HICP",
-#                  "U", "underinf", "EURIBOR_3M")
-# var_retained = c("lGDP_detrend","U_detrend",
-#                  "EURIBOR_3M_detrend","HICP_detrend", "underinf_detrend")
+
 #Select AIC-suggested lag
 lagselect <-VARselect(dataUE[,var_ordering1],
                       lag.max=6,type="const")
-# Tous les indicateurs suggèrent de retenir 2 lags
+# Le critère de Schwartz suggère de ne retenir qu'un lag
 lagselect
-p_retenu = 2
+p_retenu = 1
 
 # L'ordre des variables n'aura pas d'impact sur les analyses du VAR
 # mais uniquement dans la spécification du sVAR
@@ -57,9 +43,8 @@ arch.test(model)
 plot(stability(model))
 
 # Pour récupérer le code latex du VAR :
-cat(latexify_var(model,align = T, nb_dec = 2))
-cat(latexify_mat(var(residuals(model)), nb_dec = 5))
-
+cat(latexify_var(model,align = FALSE, nb_dec = 2, se=TRUE))
+cat(latexify_mat(cor(residuals(model)), nb_dec = 2))
 
 Bmat_chol <- diag(nrow = 5)
 Bmat_chol[2,1] <- Bmat_chol[3,1:2] <- 
@@ -73,11 +58,27 @@ Bmat[2,1] <- Bmat[3,c(1)] <-
     diag(Bmat) <- NA
 Bmat # affiné
 
+Bmat2 <- diag(nrow = 5)
+Bmat2[2,1] <- Bmat2[3,c(1:2)] <- 
+    Bmat2[5,4] <- 
+    diag(Bmat2) <- NA
+Bmat2 # affiné
+
 smodel1_chol <- SVAR(model,Bmat = Bmat_chol)
 smodel1 <- SVAR(model,Bmat = Bmat) 
 smodel1_chol$B # coefficients imposés à 0 proches de 0
+smodel1$B
+cat(latexify_mat(smodel1$B, nb_dec = 3))
 
 smodel2 <- SVAR(model2,Bmat = Bmat_chol)
+smodel2
+# les coefficients que l'on va imposer à 0 sont estimés à 0
+# en utilisant la décomposition de choleski
+# Les mêmes résultats sont donc trouvés entre les deux méthodes
+smodel2 <- SVAR(model2,Bmat = Bmat2)
+smodel2
+cat(latexify_mat(smodel2$B, nb_dec = 3))
+
 
 smodel1_bq <- BQ(model)
 smodel2_bq <- BQ(model2)
@@ -96,9 +97,9 @@ irf_2_bq <- irf(smodel2_bq, impulse = "EURIBOR_3M",
 plot_irf(irf_1_chol) + ggtitle("Choleski - supply") 
 plot_irf(irf_1) + ggtitle("Matrice affinée - supply") # Quasiment même résultat
 
-plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition- supply") 
+plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition - supply") 
 
-plot_irf(irf_2) + ggtitle("Choleski - demand")
+plot_irf(irf_2) + ggtitle("Matrice affinée - demand")
 plot_irf(irf_2_bq) + ggtitle("Blanchard Quah decomposition - demand")
 
 # decomposition de la variance
@@ -106,4 +107,9 @@ fevd <- fevd(smodel1, n.ahead = 20)
 plot_fevd(fevd)
 
 
-
+saveRDS(model, "data/models_EA/var_model.RDS")
+saveRDS(irf_1, "data/models_EA/irf_1")
+saveRDS(irf_1_chol, "data/models_EA/irf_1_chol")
+saveRDS(irf_1_bq, "data/models_EA/irf_1_bq")
+saveRDS(irf_2, "data/models_EA/irf_2")
+saveRDS(irf_2_bq, "data/models_EA/irf_2_bq")
