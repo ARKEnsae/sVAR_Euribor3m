@@ -14,9 +14,10 @@ if (!require(patchwork)){
     install.packages(patchwork)
     require(patchwork)
 }
-if (!require(reshape2)){
-    install.packages(reshape2)
-}
+# On installe les packages suivants si non installés
+packages <- c("reshape2", "fUnitRoots", "tseries")
+install.packages(setdiff(packages, rownames(installed.packages())))  
+
 plot_irf <- function(oir,
                      labeller = "label_parsed",
                      recode = c("Delta~y[t]"= "dlGDP",
@@ -242,14 +243,16 @@ lectureBDM <- function(idbank, ...)
                  ,T=4
                  ,S=2
                  ,A=1)
-    #On détermine le format de la colonne qui contient les dates en fonction de la fréquence
+    # On détermine le format de la colonne qui contient les dates
+    # en fonction de la fréquence
     sepDate<-switch(FREQ
                     ,M="-"
                     ,B="-B"
                     ,T="-Q"
                     ,S="-S"
                     ,A=" ")
-    dataBDM <- reshape2::dcast(dataBDM,"TIME_PERIOD ~ IDBANK",value.var = "OBS_VALUE")
+    dataBDM <- reshape2::dcast(dataBDM,"TIME_PERIOD ~ IDBANK",
+                               value.var = "OBS_VALUE")
     dataBDM <- dataBDM[order(dataBDM$TIME_PERIOD),]
     
     #On récupère la première date
@@ -276,4 +279,50 @@ lectureBDM <- function(idbank, ...)
     }
     dataBDM <- ts(dataBDM,start=dateDeb,freq=freq)
     return(dataBDM)
+}
+
+# fonctions pour tester la stationarité des données
+stationnarity_test <- function(x, detrend = TRUE){
+    if(detrend){
+        x_detrend = residuals(lm(x ~ time(x)))
+    }else{
+        x_detrend = x
+    }
+    
+    kpss_test = tseries::kpss.test(x_detrend) # H_0 série stationnaire
+    adf = adfTest_valid(x_detrend, kmax = 20, type = "nc") # H_0 racine unitaire
+    result = c(kpss_test$p.value,
+               adf@test$p.value)
+    names(result) = c("KPSS test", "ADF test")
+    result
+}
+Qtests <- function(series, k = 24, fitdf=0) {
+    pvals <- apply(matrix(1:k), 1, FUN=function(l) {
+        pval <- if (l<=fitdf) NA else Box.test(series,
+                                               lag=l,
+                                               type="Ljung-Box", 
+                                               fitdf=fitdf)$p.value 
+        return(c("lag"=l,"pval"=pval))
+    })
+    return(t(pvals))
+}
+# tests ADF jusqu’à ce que les résidus ne soient pas autocorrélés
+adfTest_valid <- function(series, kmax,type){
+    k <- 0
+    noautocorr <- 0
+    while (noautocorr==0){
+        suppressWarnings({
+            adf <- fUnitRoots::adfTest(series,lags=k,type=type)
+        })
+        
+        pvals <- Qtests(adf@test$lm$residuals,
+                        24,
+                        fitdf=length(adf@test$lm$coefficients))[,2] 
+        if (sum(pvals<0.05,na.rm=T) == 0) {
+            noautocorr <- 1;
+            adf <- fUnitRoots::adfTest(series,lags=k,type=type)
+        }
+        k <- k + 1
+    }
+    return(adf)
 }

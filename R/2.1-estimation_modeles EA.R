@@ -3,9 +3,15 @@ library(vars)
 source("R/Z - Fonctions.R",encoding = "UTF-8")
 
 dataUE <- readRDS("data/data_UE.RDS")
-dataUE <- na.omit(dataUE[,c("EURIBOR_3M", "lGDP","dlGDP",
+dataUE <- na.omit(dataUE[,c("EURIBOR_3M","dlGDP",
                             "U", "HICP", "underinf")])
 dataUE <- window(dataUE, end = c(2018,4))
+
+round(sapply(dataUE, stationnarity_test), 3)
+# Au seuil de 5 %, lorsque l'on enlève une tendance linéaire on trouve que
+# toutes les séries stationnaires selon kpss et selon ADF.
+# C'est pourquoi on effectue un VAR avec un modèle contenant constante + 
+# tendance linéaire.
 
 p <- (plot_ts(dataUE, "EURIBOR_3M") +
           plot_ts(dataUE, "dlGDP"))/(
@@ -79,9 +85,10 @@ smodel2 <- SVAR(model2,Bmat = Bmat2)
 smodel2
 cat(latexify_mat(smodel2$B, nb_dec = 3))
 
-
+# Utilisation de Blanchard Quah, non commenté dans le rapport
 smodel1_bq <- BQ(model)
 smodel2_bq <- BQ(model2)
+
 irf_1 <- irf(smodel1, impulse = "EURIBOR_3M",
            n.ahead = 20)
 irf_1_chol <- irf(smodel1_chol, impulse = "EURIBOR_3M",
@@ -94,15 +101,19 @@ irf_2 <- irf(smodel2, impulse = "EURIBOR_3M",
 irf_2_bq <- irf(smodel2_bq, impulse = "EURIBOR_3M",
                 n.ahead = 20)
 
-plot_irf(irf_1_chol) + ggtitle("Choleski - supply") 
-plot_irf(irf_1) + ggtitle("Matrice affinée - supply") # Quasiment même résultat
+plot_irf(irf_1_chol) + ggtitle("Choleski - GDP-led") 
+# Quasiment même résultat comme attendu :
+plot_irf(irf_1) + ggtitle("Matrice affinée - GDP-led")
 
-plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition - supply") 
+# Non commenté dans le rapport
+plot_irf(irf_1_bq) + ggtitle("Blanchard Quah decomposition - GDP-led") 
 
-plot_irf(irf_2) + ggtitle("Matrice affinée - demand")
-plot_irf(irf_2_bq) + ggtitle("Blanchard Quah decomposition - demand")
+plot_irf(irf_2) + ggtitle("Matrice affinée - Euribor-led")
+# Non commenté dans le rapport
+plot_irf(irf_2_bq) + ggtitle("Blanchard Quah decomposition - Euribor-led")
 
 # decomposition de la variance
+# non utilisé dans le rapport
 fevd <- fevd(smodel1, n.ahead = 20)
 plot_fevd(fevd)
 
