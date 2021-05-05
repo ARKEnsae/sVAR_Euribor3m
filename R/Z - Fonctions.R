@@ -7,12 +7,12 @@ if (!require(forcats)){
     require(forcats)
 }
 if (!require(ggfortify)){
-    install.packages(forcats)
-    require(forcats)
+    install.packages(ggfortify)
+    require(ggfortify)
 }
 if (!require(patchwork)){
-    install.packages(forcats)
-    require(forcats)
+    install.packages(patchwork)
+    require(patchwork)
 }
 if (!require(reshape2)){
     install.packages(reshape2)
@@ -31,7 +31,8 @@ plot_irf <- function(oir,
     data_plot[,"Var1"] <- data_plot[,"Var1"] -1
     colnames(data_plot) <- c("x","variable","y","lower","upper")
     data_plot$variable <- factor(data_plot$variable,
-                                 levels = c("dlGDP", "U", "underinf", "HICP", "EURIBOR_3M"),
+                                 levels = c("dlGDP", "U", "underinf",
+                                            "HICP", "EURIBOR_3M"),
                                  ordered = TRUE)
     data_plot$variable <- fct_recode(data_plot$variable, !!!recode)
     ggplot(data = data_plot,aes(x = x,y=y,ymin=lower,ymax=upper)) +
@@ -59,8 +60,9 @@ plot_fevd <- function(fevd,
     colnames(data_plot) <- c("horizon","variable","y","decomp")
     data_plot$y <- 100 *data_plot$y
     data_plot$decomp <- factor(data_plot$decomp,
-                                 levels = c("dlGDP", "U", "underinf", "HICP", "EURIBOR_3M"),
-                                 ordered = TRUE)
+                               levels = c("dlGDP", "U", "underinf",
+                                          "HICP", "EURIBOR_3M"),
+                               ordered = TRUE)
     
     data_plot$variable = fct_recode(data_plot$variable, !!!recode)
     data_plot$decomp = fct_recode(data_plot$decomp, !!!recode)
@@ -100,7 +102,7 @@ latexify_var <- function(model, nb_dec = 1, align = FALSE,
     # rename_fun = function(x) {gsub("_", "\\_", x,fixed = TRUE)}
     coefficients <- coef(model)
     names_var <- rename_fun(names(coefficients))
-
+    
     coef_mats <- lapply(seq_len(model$p),function(lag){
         sapply(coefficients,function(x){
             x[grep(sprintf("\\.l%i$",lag),rownames(x)), "Estimate"]
@@ -148,7 +150,7 @@ latexify_mat <- function(mat, se_mat = NULL, nb_dec = 1){
     if(!is.null(se_mat)){
         se_mat = formatC(se_mat, digits = nb_dec, format = "f")
         se_mat = apply(se_mat,2,
-              function(x) paste0("\\underset{(",x,")}"))
+                       function(x) paste0("\\underset{(",x,")}"))
         mat = apply(mat,2,
                     function(x) paste0("{",x,"}"))
         mat[]= paste0(se_mat,mat)
@@ -223,7 +225,8 @@ lectureBDM <- function(idbank, ...)
         dataBDM <- as.data.frame(rsdmx::readSDMX(UrlData,isURL = T),
                                  stringsAsFactors=TRUE)
     },error=function(e){
-        stop(paste0("Il y a une erreur dans le téléchargement des données. Vérifier le lien\n",
+        stop(paste0("Il y a une erreur dans le téléchargement des données.",
+                    "Vérifier le lien\n",
                     UrlData),
              call. = FALSE)
     })
@@ -260,7 +263,8 @@ lectureBDM <- function(idbank, ...)
     
     if(ncol(dataBDM) != length(idbank))
         warning(paste("Le ou les idbank suivant n'existent pas :",
-                      paste(grep(paste(colnames(dataBDM),collapse="|"),idbank,value=T,invert = T),
+                      paste(grep(paste(colnames(dataBDM),collapse="|"),
+                                 idbank,value=T,invert = T),
                             collapse=", ")))
     if(ncol(dataBDM) > 1){
         # On a au moins 2 colonnes : on replace les colonnes dans le même ordre 

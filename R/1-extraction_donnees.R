@@ -4,7 +4,7 @@ library(zoo)
 
 source("R/Z - Fonctions.R",encoding = "UTF-8")
 
-############################### DATA GATHERING & CLEANING ###############################  
+############### DATA GATHERING & CLEANING ############### 
 
 ##################################
 ######### DONNEES UE #############
@@ -23,14 +23,15 @@ gdp<-get_eurostat(
     "namq_10_gdp",
     time_format="date",
     filters=list(geo="EA", s_adj="SCA", na_item="B1GQ", unit="CLV10_MEUR")
-)  # La série désaisonnalisée n'est pas disponible au niveau agrégé
+)
 gdp <- log(ts(gdp$values,start=c(substr(gdp$time[1],1,4),1), freq=4))
 dlgdp <- diff(gdp)
 
 
 ##unemployment
 # Extraction du taux de chômage harmonisé pour les personnes de 15 à 74 ans,
-# En ne faisant pas de distinction par sexe et en prenant le pourcentage dans la population active
+# En ne faisant pas de distinction par sexe et en prenant 
+# le pourcentage dans la population active
 unem<-get_eurostat(
     "une_rt_q",
     time_format="date",
