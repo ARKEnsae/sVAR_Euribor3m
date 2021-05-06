@@ -1,8 +1,7 @@
 # Les effets d’une hausse de l’Euribor 3-mois
 
-Projet d'*Applied macroeconometrics* de Valentin Giust, Gautier Lenfant et Alain Quartier-la-Tente.
+Projet d'*Applied macroeconometrics* de Valentin Giust (@ValGIUST), Gautier Lenfant (@GautierLENFANT) et Alain Quartier-la-Tente (@AQLT).
 
-## Sujet 
+L'objectif est d'étudier les effets d'une hausse de l’Euribor 3-mois sur les variables macroéconomiques classiques (PIB, chômage, IPCH, inflation sous-jacente) à l'aute de modèles sVAR.
 
-Vous quantifierez les effets d’une hausse de l’Euribor 3-mois sur les variables macroéconomiques classiques (PIB, chômage, IPCH, inflation sous-jacente, etc). 
-À cette fin, vous formulerez différents scenarii de hausse de ce taux et vous appuierez sur un VAR pour quantifier les effets de ces scenarii.
+Le rapport est disponible : https://arkensae.github.io/sVAR_Euribor3m/Rapport/Rapport.pdf
