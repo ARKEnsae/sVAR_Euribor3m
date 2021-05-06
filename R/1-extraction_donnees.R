@@ -1,8 +1,7 @@
+source("R/Z - Fonctions.R",encoding = "UTF-8")
 library(ecb)
 library(eurostat)
 library(zoo)
-
-source("R/Z - Fonctions.R",encoding = "UTF-8")
 
 ############### DATA GATHERING & CLEANING ############### 
 

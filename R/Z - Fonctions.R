@@ -15,9 +15,11 @@ if (!require(patchwork)){
     require(patchwork)
 }
 # On installe les packages suivants si non installés
-packages <- c("reshape2", "fUnitRoots", "tseries")
+packages <- c("reshape2", "fUnitRoots", "tseries", "vars",
+              "ecb", "eurostat", "zoo")
 install.packages(setdiff(packages, rownames(installed.packages())))  
 
+#### Fonctions pour tracer les graphiques ####
 plot_irf <- function(oir,
                      labeller = "label_parsed",
                      recode = c("Delta~y[t]"= "dlGDP",
@@ -91,6 +93,9 @@ plot_ts <- function(data, x){
     autoplot(data[,x]) + 
         labs(title = label_parsed(rename_fun(x))[[1]][[1]])
 }
+########################################################
+
+#### Fonctions pour extraire le code latex d'un VAR ####
 latexify_var <- function(model, nb_dec = 1, align = FALSE,
                          se = FALSE) {
     rename_fun <- function(x){
@@ -210,9 +215,9 @@ latexify_y <- function(vec, lag = 0){
           paste(vec,collapse = " \\\\\n"),
           "\n\\end{pmatrix}")
 }
+#############################################
 
-
-# Téléchargement données depuis BDM
+#### Téléchargement données depuis BDM ####
 lectureBDM <- function(idbank, ...)
 {
     #On récupère les idbank et on supprime les éventuels espaces
@@ -281,7 +286,7 @@ lectureBDM <- function(idbank, ...)
     return(dataBDM)
 }
 
-# fonctions pour tester la stationarité des données
+#### fonctions pour tester la stationarité des données ####
 stationnarity_test <- function(x, detrend = TRUE){
     if(detrend){
         x_detrend = residuals(lm(x ~ time(x)))
