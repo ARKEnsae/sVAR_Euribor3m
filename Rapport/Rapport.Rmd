@@ -53,29 +53,26 @@ The source code and this report is also available at https://github.com/ARKEnsae
 
 # Introduction {-}
 
-In this essay, we build on a VAR model to quantify the effects of variations in the Euribor-3m rate (henceforth Euribor) on a series of key macroeconomic variables both at the Euro Area (EA) level, and in the case of France. 
-To do so, we map out two scenarios involving different propagation mechanisms and relationships between the variables. 
-For that purpose, we use time series spanning 1997-2018. 
-In the first scenario (henceforth, *Euribor-led scenario*), Euribor is the primary force at play. 
+In this essay, we build upon a VAR model to quantify the effects of variations in the Euribor-3m rate (henceforth, Euribor) on a series of key macroeconomic variables both at the Euro Area (EA) level, and in the case of France. Using time series spanning 1997-2018, we map out two scenarios involving different propagation mechanisms and relationships between the variables. In the first scenario (henceforth, *Euribor-led scenario*), Euribor is the primary force at play. 
 GDP reacts contemporaneously to the short-term rate and impacts all the other variables. 
 Unemployment follows contemporaneously. 
 Both inflation and core inflation follow suit with delay. 
-Our second scenario (henceforth, *GDP-led scenario*) involves GDP as the primary force at play in the wake of a shock on the Euribor. 
+Our second scenario (henceforth, *GDP-led scenario*) involves GDP as the primary force at play in the wake of a shock on Euribor. 
 The output level affects unemployment contemporaneously. 
 The latter then impacts inflation and core inflation with delay. 
 We apply these scenarios both to France and to the EA as a whole.
 
-As far as the Euribor-led scenario is concerned, we find evidence that a unitary shock in the Euribor slightly brings down output and inflation in the case of the EA, while it only impacts output negatively in the case of France. 
-We find no support for an unemployment response to the Euribor shock at the EA level. 
+As far as the Euribor-led scenario is concerned, we find evidence that a unitary shock on Euribor slightly brings down output and inflation in the case of the EA, while it only impacts output negatively in the case of France. 
+However, we find no support for an unemployment response to the Euribor shock at the EA level. 
 Strangely, the French labor market seems to improve in the immediate wake of the Euribor hike, before rapidly moving back to the zero region. 
 As for the GDP-led scenario, we find suggestive evidence that a unitary shock on the Euribor rate brings down output for both France and the EA. 
 However, only does EA inflation react negatively to such a short-term rate shock. 
-In this second scenario, we find no significant impact of an Euribor shock onto the rate of unemployment, whether it be for France or the EA.
+In this second scenario, we identify no significant impact of an Euribor shock onto the rate of unemployment, whether it be for France or the EA.
 
-When it comes to the relationship between the short-term rate and the main macroeconomic variables, our VAR-based findings using the GDP-led scenario are consistent with some theoretical predictions of the basic Neo-Keynesian model (henceforth, NKM): an increase of the nominal interest rate (proxied by the Euribor 3m in our framework) in the SR has a negative impact on aggregate demand, which brings down inflation in a significant fashion. 
+When it comes to the relationship between the short-term rate and the main macroeconomic variables, our VAR-based findings using the GDP-led scenario are consistent with some theoretical predictions of the basic Neo-Keynesian model (henceforth, NKM): an increase in the short term nominal interest rate (proxied by Euribor in our setup) has a negative impact on aggregate demand, which brings down inflation in a significant fashion. 
 
 In the first part (section \@ref(sec:data)), we provide the origin of our empirical resources and present our data, along with a few stylized facts. 
-We then present our empirical strategy and the features of our specification in the second part (section \@ref(sec:model)). 
+We then describe our empirical strategy as well as the features of our specification in the second part (section \@ref(sec:model)). 
 Finally, the last part sets forth the results of our estimations based on the two scenarios (section \@ref(sec:est)). 
 
 \pagebreak
@@ -92,17 +89,16 @@ In the case of the EA, our data on GDP, unemployment and the Euribor rate origin
 Further, our EA GDP time series is expressed in chain linked volumes (2010) and is seasonally and calendar adjusted. 
 When it comes to the rates of standard and core inflation, we extract the time series from the **ECB** database and convert them into quarterly data. 
 The unemployment rate is seasonally adjusted and covers people of both genders aged 15-74. 
-Further specifics are provided in the code, available in appendix \@ref(subsec:downloadingdata). 
+Further specifics are provided in the code available in appendix \@ref(subsec:downloadingdata). 
 In the case of France, our data on GDP, unemployment and the rates of inflation is all extracted from the **INSEE** database. 
 The unemployment time series complies with the BIT's definition of unemployment and covers people of both genders aged 15-64. 
-Obviously, the Euribor time series for France is common to that of the EA and originates from the **Eurostat** database. 
+Obviously, the Euribor time series for France is similar to that of the EA and thus originates from the **Eurostat** database. 
 
 ## A few stylized facts
 
-In this subsection, we present a few stylized facts characterizing the macroeconomic trends in the EA between 1997 and 2018.
-We provide similar description in the particular case of France. 
+In this subsection, we present a few stylized facts characterizing the macroeconomic trends in the EA and France between 1997 and 2018.
 Figure \@ref(fig:plot-data-ue) sets forth the time series associated with our variables in the case of the EA. 
-Figure \@ref(fig:plot-data-fr), on the other hand, exhibits the same series for France.
+Figure \@ref(fig:plot-data-fr), on the other hand, shows the same series for France.
 
 ```{r plot-data-ue, echo=FALSE,fig.cap="European Area data plots.", fig.dim=c(7,4)}
 p <- (plot_ts(dataUE, "EURIBOR_3M") +
@@ -126,22 +122,22 @@ p & theme_minimal()
 
 
 First, the 3 months Euribor rate is the benchmark rate of the Euro interbank lending market at a maturity of 3 months. 
-It corresponds to the average unsecured lending rate between European banks which are required to report it daily based on transactions. 
+It corresponds to the average unsecured lending rate between European banks, which are required to report it daily, based on transactions. 
 Euribor is the only variable that cannot be declined by country, so that it is common, in our analysis, to both France and the EA. 
-A barometer of the short-term financing rate of European banks, the Euribor is a market rate. 
+A barometer of the short-term financing rate of European banks, Euribor is a market rate. 
 As such it is not directly controlled by the ECB though, in practice, the latter can influence the former to a large extent through the policy rate. 
 
 Euribor is linked to EONIA, the main very short-term interbank interest rate, which has been replaced by a new benchmark rate called €STR. 
 EONIA is critical to understanding the dynamics of Euribor. 
 Although they are both interbank and unsecured lending rates, the crucial difference between them is the lending horizon: while Euribor is a 3 months rate, EONIA is an overnight rate. 
-By means of an arbitrage relationship, EONIA must stay within the range outlined by the ECB deposit rate and the ECB main refinancing operations (MRO) rate. 
-From the aftermath of the sovereign debt crisis, the ECB has increasingly resorted to unconventional monetary policy instruments to bring the economy back on track. 
+By means of an arbitrage relationship, EONIA must stay within the range outlined by the ECB deposit rate and the main refinancing operations (MRO) rate. 
+Since the aftermath of the sovereign debt crisis, the ECB has increasingly resorted to unconventional monetary policy instruments to bring the economy back on track. 
 The massive asset purchase programs conducted by the ECB have caused an unprecedented rise in the amounts of liquidity  deposited by banks in their ECB accounts beyond the minimum reserve requirement. 
 Amid unprecedented ECB-led liquidity injections over the past 10 years, EONIA has rapidly come down and stuck to the deposit floor rate. 
 Therefore, even though EONIA is a market rate, the ECB can control it closely through the fixing of deposit rates. 
 Outside crisis times, the spread between Euribor and EONIA is roughly stable and revolves around 50 basis points. 
-So, EONIA would be the ideal benchmark of the very short-term interest rate in the EA as it is bounded by ECB policy rates and very low risk. 
-Euribor is a little more complex as it encompasses other elements such as expectations of changes in the ECB policy rates over the next 3 months as well as stress / frictions on the interbank lending market.
+Therefore, EONIA would be the ideal benchmark of the very short-term interest rate in the EA as it is bounded by ECB policy rates and very low risk. 
+Euribor is a little bit more complex as it encompasses other elements such as expectations of changes in the ECB policy rates over the next 3 months as well as stress / frictions on the interbank lending market.
 
 Over the period spanning 1997-2018, Euribor roughly followed ECB rates with the noteworthy exception of spikes reflecting the stress of interbank markets amid the storm of the financial and economic crisis of the late 2000s and early 2010s. 
 Before 2008, Euribor followed the cyclical moves of the ECB's rate policies and peaked twice above 5% on a yearly basis. 
@@ -150,8 +146,7 @@ After 2008, Euribor started following a trend decline, except amid the sovereign
 Since 2015, Euribor has become negative and flat, revolving around -0.5% on a yearly basis. Further, because of the ECB-led unconventional policies, the spread between EONIA and Euribor has further worn off. 
 
 We now turn to aggregate demand variables in the context of the EA. 
-As far as GDP is concerned, we distinguish two periods or cycles: from 2001 to 2008-09 and from 2009 to 2020. 
-The Covid-19 recession is not on our scope here. Average growth is higher in the first cycle (before 2008). 
+As far as GDP is concerned, we distinguish two periods or cycles: from 2001 to 2008-09 and from 2009 to 2020 - the Covid-19 recession is not on our scope here. Average growth is higher in the first cycle (before 2008). 
 The 2008 financial crisis begets a deep and protracted recession over several quarters. 
 The second cycle features a double dip recession in 2011 due to the sovereign debt crisis in Europe, as well as two ill-thought-out ECB rate hikes visible on the Euribor, in the midst of Trichet's mandate. 
 It is well established by the literature that this surprising twist in the monetary policy had a detrimental effect on output and unemployment in the EA. W
@@ -159,17 +154,17 @@ ith the rollout of austerity measures in the fiscal front in several countries (
 While its dynamics are relatively similar to the EA as a whole, France has performed more poorly than the average of the monetary union in terms of GDP growth.
 
 The two cycles described above apply to the unemployment and price variables as well. 
-Unemployment is negatively correlated with GDP growth (i.e. employment is positively correlated with GDP growth and prices increase more in expansion period). Inflation and core inflation are positively correlated with GDP growth (i.e. prices increase more in expansion period). 
+Unemployment is negatively correlated with GDP growth (i.e. employment is positively correlated with GDP growth and prices increase more in expansion periods). Inflation and core inflation are positively correlated with GDP growth (i.e. prices increase more in expansion periods). 
 Consequentially, Euribor tends to be negatively correlated with unemployment but positively correlated with core and non-core inflation. 
 
 Unemployment seems to react with a lag to business cycle dynamics. 
 This could be due to frictions on the labor market. While at the EA level, GDP slowdowns are observed in 2001, 2008-09 and 2011, the corresponding unemployment peaks appear in 2004, 2011 and 2014. 
-After 2014, the weak expansion was sufficient to trigger a continuous improvement in the labor markets with unemployment reaching a 10-year low of 7% right before the Covid-19 crisis. 
+After 2014, the weak expansion was sufficient to trigger a continuous improvement in the labor markets, with unemployment reaching a 10-year low of 7% right before the Covid-19 crisis. 
 
-In France, the dynamics are very similar, but some differences are worth noting. Before 2008-09, the French labor market was usually tighter than in the EA: while unemployment was at 7.5% in 2001 and 6.8% in 2007 in France, it was at 8.5% and 7.5% at the same dates in the EA. The unemployment rises from 2009 to 2014-15 is very similar between France and the EA, though the peak is lower in the hexagon. However, the expansionary phase starting from 2014 is much weaker in France. The peak unemployment in the French labor market lasted longer and the improving phase was much shier: from 10.3% in 2015 to 8.4 in 2019 vs. 12% in 2014 to 7.5% in 2019 at the EA level.
+In France, the dynamics are very similar but some differences are worth noting. Before 2008-09, the French labor market was usually in better shape than in the EA: while unemployment was at 7.5% in 2001 and 6.8% in 2007 in France, it was at 8.5% and 7.5% at the same dates in the EA. The unemployment rise spanning 2009-2015 is very similar between France and the EA, though the peak is lower in the hexagon. However, the expansionary phase starting from 2014 is much weaker in France. The peak unemployment in the French labor market lasted longer and the improving phase was much shier: from 10.3% in 2015 to 8.4% in 2019 vs. 12% in 2014 to 7.5% in 2019 at the EA level.
 
 The lag is less pronounced on price variables. 
-At the EA level, prices variables bottomed out in 2009, 2014 and 2019, which is not fully consistent with the business cycle dynamics described above. 
+At the EA level, price variables bottomed out in 2009, 2014 and 2019, which is not fully consistent with the business cycle dynamics described above. 
 In 2019 for instance, as EA labor markets were on an improving track, core-inflation was down. 
 The coexistence of persistently low inflation with improving labor markets is a rather counter-intuitive pattern, insofar as it runs against the NKM.
 One explanation for the flattening of the Phillips curve in Europe is the decision made by some EA countries (e.g. Spain) to deliberately bring down their labor costs and domestic prices in an attempt to enhance their competitiveness amid exchange rate fixity. 
@@ -195,12 +190,12 @@ In this section, we describe and explain the features of our VAR specification. 
 The same specification is used for EA and French data:
 
 - We estimate a VAR model with a constant and a linear trend^[
-At 5%, the KPSS and the Augmented Dicker Fuller test conclude that all the series are stationary after having removed deterministic linear trend.
+At 5%, the KPSS and the Augmented Dicker Fuller test conclude that all the series are stationary after removing deterministic linear trends.
 ].
 
-- The number of lags of the model is determined by minimizing the Schwarz information criterion: we find that lag of 1 is enough to have a well specified model (no serial correlation, stability of the estimates and no ARCH effect).
+- The number of lags of the model is determined by minimizing the Schwarz information criterion: we find that a lag of 1 is enough to have a well specified model (no serial correlation, stability of the estimates and no ARCH effect).
 
-Equations \@ref(eq:var-ea) and \@ref(eq:var-fr) shows the estimated parameters and the t-statistic of the VAR model, respectively for EA and French data.
+Equations \@ref(eq:var-ea) and \@ref(eq:var-fr) show the estimated parameters and the t-statistics of the VAR models, respectively for EA and French data.
 
 \begin{equation}
 \begin{pmatrix}
@@ -260,7 +255,7 @@ R_{t - 1}
 (\#eq:var-fr)
 \end{equation}
 
-Equation \@ref(eq:variances) shows the estimates of the covariance matrix of the residuals. 
+Equation \@ref(eq:variances) shows the estimates of the covariance matrix of residuals. 
 It is worth noticing that those matrices are not diagonal, meaning that a shock on a component is correlated to a shock on the other components. 
 This implies that we cannot directly estimate the impact of a shock on the Euribor rate, $R_t$.
 To do so, we need to make some assumptions as to the shocks' propagation. These assumptions are described in section \@ref(sec:est).
@@ -292,8 +287,8 @@ In this section, we depict the results of our estimation endeavor.
 
 ## Euribor-led scenario
 
-In the first scenario --- henceforth, *Euribor-led scenario* --- we suppose that Euribor is the primary force at play. 
-GDP reacts contemporaneously to the short-term rate and impacts all the other variables in turn. While unemployment follows contemporaneously, both inflation and core inflation follow with delay.
+In the Euribor-led scenario, we suppose that Euribor is the primary force at play. 
+GDP reacts contemporaneously to the short-term rate and impacts all the other variables in turn. While unemployment follows contemporaneously, both inflation and core inflation react with delay.
 
 Statistically speaking, this scenario is equivalent to reordering our macroeconomic variables this way: $\begin{pmatrix}  R_{t} &\Delta y_{t} & U_{t} &\pi^{core}_{t} &\pi_{t} \end{pmatrix}$, and estimating a matrix $B_1$ such that $\mathbb V\varepsilon_t=B_1B_1'$ with the following constraints:
 $$ B_1\sim\begin{pmatrix}1 & 0 & 0 & 0 & 0\\
@@ -325,11 +320,11 @@ B_1^{FR}=\begin{pmatrix}
 
 ## GDP-led scenario
 
-In the second scenario --- henceforth, *GDP-led scenario* --- we suppose that GDP is the primary force at play: a shock in the GDP contemporaneously affects all the variables. 
+In the GDP-led scenario, we suppose that GDP is the primary force at play: a shock in the GDP contemporaneously affects all the variables. 
 Unemployment follows contemporaneously, but a shock on the rate of unemployment only affects inflation and core inflation with delay. 
 Finally, Euribor is contemporaneously affected by a shock on the other variables but the opposite does not hold: a shock on Euribor will only affect the other components with delay. 
 
-Statistically speaking, this scenario is equivalent to using the same order of variables as in equations \@ref(eq:var-ea) and \@ref(eq:var-fr) and to estimate a matrix $B_2$, such that $\mathbb V\varepsilon_t=B_2B_2'$ with the following constraints:
+Statistically speaking, this scenario is equivalent to using the same order of variables as in equations \@ref(eq:var-ea) and \@ref(eq:var-fr), and to estimate a matrix $B_2$ such that $\mathbb V\varepsilon_t=B_2B_2'$ with the following constraints:
 $$ B_2\sim\begin{pmatrix}1 & 0 & 0 & 0 & 0\\
 * & 1 & 0 & 0 & 0\\
 * & 0 & 1 & 0 & 0\\
@@ -365,7 +360,7 @@ Thereafter, the effect of the shock wears off and GDP returns to non statistical
 As for the response of unemployment, it is not statistically different from zero over the 20 period-long timeline of the IRF. 
 As for inflation, it drops significantly below zero in the vicinity of periods 6 and 7, before retrieving insignificant levels. 
 The response of core-inflation is not statistically different from zero over the whole IRF timeline. 
-As far as the 3 months Euribor is concerned, it keeps rising in the first quarter in the wake of the shock, then starts decreasing and returns to normal after 3 years.
+As far as Euribor is concerned, it keeps rising in the first quarter after the shock, then starts decreasing and returns to normal in a matter of 3 years.
 
 Turning now to the case of France's IRFs (figure \@ref(fig:plot-irf-fr-euribor-lead)), we notice that, in the Euribor-led scenario, a unitary shock on Euribor has a positive and significant effect on GDP in the very short run, before inducing a sharp and lingering drop in output between periods 3 and 7. 
 Interestingly enough, unemployment drops significantly in the immediate aftermath of the shock because of the earlier described short-term rise in output. 
@@ -381,14 +376,14 @@ The massive drops in the interest rates came out after the financial turmoil of 
 It was not until 2015-2016 that growth came back around, long after the substantial interest rate cuts of 2009-2010.
 
 Upon careful examination of the EA IRFs in the case of the GDP-led scenario, (figure \@ref(fig:plot-irf-ea-gdp-lead)) we notice that a unitary shock on the Euribor rate has no significant effect on unemployment or core inflation. 
-However, it does induce a significant decrease in output which returns to normal after around 3 years.
+However, it does induce a significant decrease in output which returns to normal after about 3 years.
 Running against our observations in the Euribor-led scenario, inflation decreases in the first year and gradually returns to the non-significant region from period 8 onward. 
-As for the Euribor rate, is slowly returns to normal.
+As for the Euribor rate, it slowly returns to normal in a matter of 4-5 periods. 
 In the case of France (figure \@ref(fig:plot-irf-fr-gdp-lead)), the drop in output is far more substantial, while the inflation's IRF features no trough. 
 
 When allowing GDP to be a leading force in the wake of an upward Euribor shock, we obtain results that are more in line with economic intuition. 
-While it does not significantly damage labor markets, the drop in output does bring down inflation. 
-It is worth mentioning that, in the basic NK model, the conversion of the drop in output into lower prices goes through the falling labor demand and the dropping marginal costs of production in the context of perfectly competitive labor markets. 
+While it does not significantly damage labor markets, the drop in output does bring inflation down. 
+It is worth mentioning that, in the basic NKM, the conversion of the drop in output into lower prices goes through the falling labor demand and the dropping marginal costs of production in the context of perfectly competitive labor markets. 
 Our findings in this second scenario are rather consistent with those theoretical predictions, insofar as we observe no significant effect on unemployment but an important response of prices. 
 
 
@@ -417,17 +412,17 @@ plot_irf(irf)
 \newpage
 # Concluding remarks
 
-Using a VAR specification giving a leading role to output in the causal chain, we find results suggesting that a unitary shock on the 3 months Euribor rate does impact GDP in negative manner, be it for France or the EA as a whole. 
+Relying on a VAR specification giving a leading role to output in the causal chain, our findings suggest that a unitary shock on the 3 months Euribor rate does impact GDP in a negative way, be it for France or the EA as a whole. 
 Our favorite GDP-led specification also predicts that an upward shock on the Euribor rate causes a significant short-term drop in the rate of inflation.
-Nevertheless, we find no suggestive evidence that a sudden hike in Euribor has any effect whatsoever on labor markets. 
-This is consistent with basic Neo-Keynesian model whereby a rise in the policy rate induces a fall in consumption and output, leading to a fall in marginal costs and prices through the clearing of labor markets.
+Nevertheless, we find no evidence that a sudden hike in Euribor has any effect whatsoever on labor markets. 
+This is consistent with the basic NKM whereby a rise in the policy rate induces a fall in consumption and output, leading to a drop in marginal costs and prices through the clearing of labor markets.
 
 Our study could be extended in many ways. 
-First, our structural VAR model could be improved, for example adding exogenous dummy variables or other economic variables. 
-Second, other methods to identify structural shocks could be used, such as the Blanchard-Quah model^[
+First, our structural VAR model could be improved through the adding of exogenous dummy variables or other economic variables. 
+Second, one could use other methods to identify structural shocks such as the Blanchard-Quah model^[
 Blanchard, O. and D. Quah (1989), The Dynamic Effects of Aggregate Demand and Supply Disturbances, *The American Economic Review*, **79**(4), 655-673.
-] that apply a Cholesky decomposition on the long-run influence of the different variables.
-Third, we could also build a structural Vector Error Correction Model (VECM), using GDP and consumer prices index in level rather than in evolution.
+] which applies a Cholesky decomposition on the long-run influence of the different variables.
+Third, we could also build a structural Vector Error Correction Model (VECM) using GDP and the consumer price index in levels rather than in evolution.
 
 \newpage
 \appendix
